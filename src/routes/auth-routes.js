@@ -7,13 +7,16 @@ const Stack = createNativeStackNavigator();
 // Import das screens
 import SignIn from '../screens/auth-screens/signin';
 import SignUp from '../screens/auth-screens/signup';
+import ResetPassword from '../screens/auth-screens/reset-password';
 
 export default function AuthRoutes() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="SignIn" component={SignIn} />
 
       <Stack.Screen name="SignUp" component={SignUp} />
+
+      <Stack.Screen name="ResetPassword" component={ResetPassword} />
     </Stack.Navigator>
   );
 }
