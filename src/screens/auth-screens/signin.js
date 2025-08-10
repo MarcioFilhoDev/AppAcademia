@@ -1,5 +1,5 @@
 import {
-  Image,
+  Alert,
   Keyboard,
   Text,
   TextInput,
@@ -7,17 +7,29 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import Feather from 'react-native-vector-icons/Feather';
 
+import { AuthContext } from '../../contexts/auth';
+
 export default function SignIn() {
+  const { signIn } = useContext(AuthContext);
   const navigate = useNavigation();
 
   const [showPass, setShowPass] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  async function handleLogin() {
+    if (email === '' || password === '') {
+      Alert.alert('Erro.', 'Preencha os dados corretamente.');
+      return;
+    }
+
+    await signIn(email, password);
+  }
 
   return (
     <TouchableWithoutFeedback
@@ -28,10 +40,11 @@ export default function SignIn() {
       <View className="flex-1 justify-center items-center bg-neutral-200">
         <View className="w-4/5">
           <Text className="text-xl font-semibold color-neutral-800 mb-5">
-            Faça login
+            Faça o login
           </Text>
 
           <View className="gap-3">
+            {/* Campo do email */}
             <TextInput
               placeholder="E-mail"
               className="bg-neutral-100 pl-4 py-4 rounded text-lg "
@@ -39,6 +52,7 @@ export default function SignIn() {
               onChangeText={text => setEmail(text)}
             />
 
+            {/* Campo da senha */}
             <TextInput
               placeholder="Senha"
               className="bg-neutral-100 pl-4 py-4 rounded text-lg"
@@ -47,6 +61,7 @@ export default function SignIn() {
               onChangeText={text => setPassword(text)}
             />
 
+            {/*  */}
             <View className="flex-row justify-between mb-1">
               <TouchableOpacity
                 activeOpacity={0.7}
@@ -67,7 +82,9 @@ export default function SignIn() {
               </TouchableOpacity>
             </View>
 
+            {/* Botao de login */}
             <TouchableOpacity
+              onPress={handleLogin}
               activeOpacity={0.7}
               className="bg-orange-400 py-3 rounded justify-center items-center elevation"
             >
@@ -76,6 +93,7 @@ export default function SignIn() {
               </Text>
             </TouchableOpacity>
 
+            {/* Botao de cadastro */}
             <TouchableOpacity
               onPress={() => navigate.navigate('SignUp')}
               activeOpacity={0.7}

@@ -1,4 +1,5 @@
 import {
+  Alert,
   Keyboard,
   Text,
   TextInput,
@@ -6,13 +7,15 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import Feather from 'react-native-vector-icons/Feather';
 
 import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from '../../contexts/auth';
 
 export default function SignUp() {
+  const { signUp } = useContext(AuthContext);
   const navigate = useNavigation();
 
   const [showPass, setShowPass] = useState(false);
@@ -20,6 +23,30 @@ export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+
+  async function handleSignUp() {
+    if (
+      name === '' ||
+      email === '' ||
+      password === '' ||
+      confirmPassword === ''
+    ) {
+      Alert.alert('Erro.', 'Preencha os dados corretamente.');
+      return;
+    } else if (password !== confirmPassword) {
+      Alert.alert('Erro.', 'As senhas não coincidem.');
+      return;
+    }
+
+    await signUp(email, password, name);
+
+    // Retornando os campos para nulos
+    setName('');
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
+    return;
+  }
 
   return (
     <TouchableWithoutFeedback
@@ -39,6 +66,7 @@ export default function SignUp() {
               className="bg-neutral-100 pl-4 py-4 rounded text-lg"
               value={name}
               onChangeText={text => setName(text)}
+              maxLength={20}
             />
 
             <TextInput
@@ -46,6 +74,7 @@ export default function SignUp() {
               className="bg-neutral-100 pl-4 py-4 rounded text-lg "
               value={email}
               onChangeText={text => setEmail(text)}
+              maxLength={60}
             />
 
             <TextInput
@@ -54,6 +83,7 @@ export default function SignUp() {
               secureTextEntry={!showPass}
               value={password}
               onChangeText={text => setPassword(text)}
+              maxLength={20}
             />
 
             <TextInput
@@ -62,6 +92,7 @@ export default function SignUp() {
               secureTextEntry={!showPass}
               value={confirmPassword}
               onChangeText={text => setConfirmPassword(text)}
+              maxLength={20}
             />
 
             <TouchableOpacity
@@ -74,6 +105,7 @@ export default function SignUp() {
             </TouchableOpacity>
 
             <TouchableOpacity
+              onPress={handleSignUp}
               activeOpacity={0.7}
               className="bg-orange-400 py-3 rounded justify-center items-center elevation"
             >
