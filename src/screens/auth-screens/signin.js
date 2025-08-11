@@ -50,6 +50,7 @@ export default function SignIn() {
               className="bg-neutral-100 pl-4 py-4 rounded text-lg "
               value={email}
               onChangeText={text => setEmail(text)}
+              placeholderTextColor={'#888'}
             />
 
             {/* Campo da senha */}
@@ -59,6 +60,7 @@ export default function SignIn() {
               secureTextEntry={!showPass}
               value={password}
               onChangeText={text => setPassword(text)}
+              placeholderTextColor={'#888'}
             />
 
             {/*  */}

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
-export default function receitas() {
+export default function Receitas() {
   return (
     <View>
       <Text>Tela receitas</Text>

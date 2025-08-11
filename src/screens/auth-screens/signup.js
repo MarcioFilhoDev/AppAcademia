@@ -67,6 +67,7 @@ export default function SignUp() {
               value={name}
               onChangeText={text => setName(text)}
               maxLength={20}
+              placeholderTextColor={'#888'}
             />
 
             <TextInput
@@ -75,6 +76,7 @@ export default function SignUp() {
               value={email}
               onChangeText={text => setEmail(text)}
               maxLength={60}
+              placeholderTextColor={'#888'}
             />
 
             <TextInput
@@ -84,6 +86,7 @@ export default function SignUp() {
               value={password}
               onChangeText={text => setPassword(text)}
               maxLength={20}
+              placeholderTextColor={'#888'}
             />
 
             <TextInput
@@ -93,6 +96,7 @@ export default function SignUp() {
               value={confirmPassword}
               onChangeText={text => setConfirmPassword(text)}
               maxLength={20}
+              placeholderTextColor={'#888'}
             />
 
             <TouchableOpacity
