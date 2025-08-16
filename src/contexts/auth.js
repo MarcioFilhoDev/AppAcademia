@@ -64,6 +64,7 @@ export function AuthProvider({ children }) {
             };
 
             setUser(data);
+            storageUser(data);
           });
       })
 
