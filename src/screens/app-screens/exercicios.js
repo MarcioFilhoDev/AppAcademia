@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { AuthContext } from '../../contexts/auth';
 
 export default function Exercicios() {
-  const { signOut } = useContext(AuthContext);
+  const { signOut, user } = useContext(AuthContext);
 
   async function handleSignOut() {
     await signOut();
@@ -13,7 +13,10 @@ export default function Exercicios() {
     <View>
       <Text>Tela exercicios</Text>
 
-      <Button onPress={handleSignOut} title="Deslogar" />
+      <Text>Usuario: {user.nome}</Text>
+      <Text>Usuario: {user.email}</Text>
+
+      <Button onPress={handleSignOut} title="Sair" />
     </View>
   );
 }
