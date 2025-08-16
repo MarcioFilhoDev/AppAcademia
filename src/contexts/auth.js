@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
 import auth from '@react-native-firebase/auth';
@@ -6,9 +6,35 @@ import firestore from '@react-native-firebase/firestore';
 
 export const AuthContext = createContext({});
 
-export default function AuthProvider({ children }) {
+// Armazenara as informacoes do usuario
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    async function loadStorage() {
+      const data_user = await AsyncStorage.getItem('@userCredentials');
+
+      // Verificando se existe alguma informacao salva
+      if (data_user) {
+        // Converte novamente
+        setUser(JSON.parse(data_user));
+        setLoading(false);
+      }
+      setLoading(false);
+    }
+    loadStorage();
+    setLoading(false);
+  }, []);
+
+  // Funcao que salva todas as informacoes ao ser chamada
+  async function storageUser(data) {
+    // Converte o data em uma string
+    await AsyncStorage.setItem('@userCredentials', JSON.stringify(data));
+  }
 
   // Funcao que registra/cadastra usuarios
   async function signUp(email, password, name) {
@@ -49,6 +75,7 @@ export default function AuthProvider({ children }) {
     setLoading(false);
   }
 
+  // Funcao que faz login dos usuarios
   async function signIn(email, password) {
     setLoading(true);
 
@@ -71,14 +98,20 @@ export default function AuthProvider({ children }) {
           email: value.user.email,
         };
 
+        // Definindo usuario
         setUser(result_data);
+
+        // Armazenando dados do usuario
+        storageUser(result_data);
+
+        // Retirando tela de loading
         setLoading(false);
       });
 
     setLoading(false);
   }
 
-  // Funcao que faz login dos usuarios
+  // Funcao que faz logout dos usuarios
   async function signOut() {
     setLoading(true);
     await auth()
