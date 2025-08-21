@@ -56,7 +56,7 @@ export default function SignIn() {
             {/* Campo da senha */}
             <TextInput
               placeholder="Senha"
-              className="bg-neutral-100 pl-4 py-4 rounded text-lg"
+              className="bg-neutral-100 pl-4 py-4 rounded text-lg text-black"
               secureTextEntry={!showPass}
               value={password}
               onChangeText={text => setPassword(text)}

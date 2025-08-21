@@ -27,6 +27,7 @@ export default function AppRoutes() {
         tabBarIconStyle: {
           marginTop: 5,
         },
+        tabBarActiveTintColor: 'orange',
       }}
     >
       <Tabs.Screen

@@ -47,13 +47,14 @@ export function AuthProvider({ children }) {
 
         // Cadastrando informacoes adicionais do usuario no bd
         await firestore()
-          .collection('users-info')
+          .collection('users')
           .doc(uid)
           .set({
             user_name: name,
             user_email: email,
             created: new Date(),
           })
+
           // Se deu certo a criacao dos dados do usuario no firestore
           // Envia os dados do usuario para
           .then(() => {
@@ -86,10 +87,7 @@ export function AuthProvider({ children }) {
         let uid = value.user.uid;
 
         // Buscando no bd os dados do usuario
-        const user_data = await firestore()
-          .collection('users-info')
-          .doc(uid)
-          .get();
+        const user_data = await firestore().collection('users').doc(uid).get();
 
         // console.log(user_data);
 

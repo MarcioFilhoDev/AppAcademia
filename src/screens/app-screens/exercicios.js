@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { AuthContext } from '../../contexts/auth';
 
 export default function Exercicios() {
-  const { signOut, user } = useContext(AuthContext);
+  const { signOut, user, userSigned } = useContext(AuthContext);
 
   async function handleSignOut() {
     await signOut();
@@ -13,6 +13,7 @@ export default function Exercicios() {
     <View>
       <Text>Tela exercicios</Text>
 
+      <Text>Usuario: {user.userID}</Text>
       <Text>Usuario: {user.nome}</Text>
       <Text>Usuario: {user.email}</Text>
 

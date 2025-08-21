@@ -87,6 +87,7 @@ export default function SignUp() {
               onChangeText={text => setPassword(text)}
               maxLength={20}
               placeholderTextColor={'#888'}
+              style={{ color: '#888' }}
             />
 
             <TextInput
@@ -97,6 +98,7 @@ export default function SignUp() {
               onChangeText={text => setConfirmPassword(text)}
               maxLength={20}
               placeholderTextColor={'#888'}
+              style={{ color: '#888' }}
             />
 
             <TouchableOpacity

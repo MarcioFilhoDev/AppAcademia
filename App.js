@@ -6,12 +6,15 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import Routes from './src/routes';
 import { AuthProvider } from './src/contexts/auth';
+import { UserStaticsProvider } from './src/contexts/user-statics';
 
 export default function App() {
   return (
     <NavigationContainer>
       <AuthProvider>
-        <Routes />
+        <UserStaticsProvider>
+          <Routes />
+        </UserStaticsProvider>
       </AuthProvider>
     </NavigationContainer>
   );
