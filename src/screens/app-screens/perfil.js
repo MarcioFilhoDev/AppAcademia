@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Button,
 } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 
@@ -14,7 +15,7 @@ import { AuthContext } from '../../contexts/auth';
 import Formulario from '../../components/formulario';
 
 export default function Profile() {
-  const { user } = useContext(AuthContext);
+  const { user, signOut } = useContext(AuthContext);
 
   const [miniLoading, setMiniLoading] = useState(true);
   const [formulario, setFormulario] = useState(false);
@@ -74,6 +75,11 @@ export default function Profile() {
     getCreatedUserDate();
     getPesoEAltura();
   }, [user?.userID]);
+
+  // Deslogar usuario
+  async function handleSignOut() {
+    await signOut();
+  }
 
   return (
     <ScrollView className="flex-1 bg-gray-200">
@@ -159,6 +165,8 @@ export default function Profile() {
           <Text> </Text>
         </View>
       )}
+
+      <Button onPress={handleSignOut} title="Sair" />
     </ScrollView>
   );
 }

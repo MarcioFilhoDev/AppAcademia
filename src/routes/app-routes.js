@@ -6,13 +6,14 @@ const Tabs = createBottomTabNavigator();
 
 // Import das screens
 import Home from '../screens/app-screens/home';
-import Exercicios from '../screens/app-screens/exercicios';
-import Calculos from '../screens/app-screens/calculos';
 import Receitas from '../screens/app-screens/receitas';
+import Profile from '../screens/app-screens/perfil';
+import Treinos from '../screens/app-screens/treinos';
+import Chat from '../screens/app-screens/chat';
 
+// Import dos icones
 import Feather from 'react-native-vector-icons/Feather';
 import Lucide from '@react-native-vector-icons/lucide';
-import Profile from '../screens/app-screens/perfil';
 
 export default function AppRoutes() {
   return (
@@ -31,21 +32,21 @@ export default function AppRoutes() {
       }}
     >
       <Tabs.Screen
-        name="Exercicios"
-        component={Exercicios}
+        name="Receitas"
+        component={Receitas}
         options={{
-          tabBarIcon: ({ color, size }) => {
-            return <Lucide name="dumbbell" color={color} size={size} />;
-          },
+          tabBarIcon: ({ color, size }) => (
+            <Lucide name="chef-hat" color={color} size={size} />
+          ),
         }}
       />
 
       <Tabs.Screen
-        name="Calculos"
-        component={Calculos}
+        name="Treinos"
+        component={Treinos}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Lucide name="calculator" color={color} size={size} />
+            <Lucide name="dumbbell" color={color} size={size} />
           ),
         }}
       />
@@ -61,12 +62,12 @@ export default function AppRoutes() {
       />
 
       <Tabs.Screen
-        name="Receitas"
-        component={Receitas}
+        name="Chat"
+        component={Chat}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Lucide name="chef-hat" color={color} size={size} />
-          ),
+          tabBarIcon: ({ color, size }) => {
+            return <Lucide name="messages-square" color={color} size={size} />;
+          },
         }}
       />
 

@@ -60,16 +60,19 @@ export default function Home() {
   );
 
   return (
-    <View
-      className="flex-1 items-center"
-      style={{ paddingTop: StatusBar.currentHeight }}
-    >
-      <View>
+    <View className="flex-1">
+      <View
+        className="bg-orange-400"
+        style={{
+          paddingTop: StatusBar.currentHeight / 2,
+          paddingBottom: StatusBar.currentHeight / 2,
+        }}
+      >
         <Text className="text-center text-xl">
           {mensagem} {user.nome}
         </Text>
 
-        <Text className="text-center text-xl italic">
+        <Text className="text-center text-xl italic font-medium">
           {diaSemana}, {dia} de {mes}
         </Text>
       </View>
