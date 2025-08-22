@@ -56,8 +56,21 @@ export function AuthProvider({ children }) {
           })
 
           // Se deu certo a criacao dos dados do usuario no firestore
-          // Envia os dados do usuario para
-          .then(() => {
+          // Envia os dados do usuario para a variavel user
+          .then(async () => {
+            // Criando colecao para cada usuario cadastrado
+
+            await firestore().collection('users_week_progress').doc(uid).set({
+              domingo: 0,
+              segunda: 0,
+              terca: 0,
+              quarta: 0,
+              quinta: 0,
+              sexta: 0,
+              sabado: 0,
+              last_update: new Date(),
+            });
+
             let data = {
               userID: uid,
               nome: name,
