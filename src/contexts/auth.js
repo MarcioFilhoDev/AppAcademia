@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, Alert, View } from 'react-native';
 
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -11,23 +11,26 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
     async function loadStorage() {
-      const data_user = await AsyncStorage.getItem('@userCredentials');
+      try {
+        const data_user = await AsyncStorage.getItem('@userCredentials');
 
-      // Verificando se existe alguma informacao salva
-      if (data_user) {
-        // Converte novamente
-        setUser(JSON.parse(data_user));
+        // Verificando se existe alguma informacao salva
+        if (data_user) {
+          // Converte novamente
+          setUser(JSON.parse(data_user));
+          setLoading(false);
+        }
+      } catch (error) {
+        Alert.alert('Error ao carregar dados do usuário', error.message);
+      } finally {
         setLoading(false);
       }
-      setLoading(false);
     }
     loadStorage();
-    setLoading(false);
   }, []);
 
   // Funcao que salva todas as informacoes ao ser chamada
@@ -50,8 +53,8 @@ export function AuthProvider({ children }) {
           .collection('users')
           .doc(uid)
           .set({
-            user_name: name,
-            user_email: email,
+            nome: name,
+            email: email,
             created: new Date(),
           })
 
@@ -59,7 +62,6 @@ export function AuthProvider({ children }) {
           // Envia os dados do usuario para a variavel user
           .then(async () => {
             // Criando colecao para cada usuario cadastrado
-
             await firestore().collection('users_week_progress').doc(uid).set({
               domingo: 0,
               segunda: 0,
@@ -70,7 +72,6 @@ export function AuthProvider({ children }) {
               sabado: 0,
               last_update: new Date(),
             });
-
             let data = {
               userID: uid,
               nome: name,
@@ -100,13 +101,11 @@ export function AuthProvider({ children }) {
         let uid = value.user.uid;
 
         // Buscando no bd os dados do usuario
-        const user_data = await firestore().collection('users').doc(uid).get();
-
-        // console.log(user_data);
+        const data = await firestore().collection('users').doc(uid).get();
 
         let result_data = {
           userID: uid,
-          nome: user_data.data().user_name,
+          nome: data.data().name,
           email: value.user.email,
         };
 
@@ -123,13 +122,19 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }
 
-  // Funcao que faz logout dos usuarios
+  // Após fazer logout do usuario, apaga os dados do AsyncStorage
+  async function removeUserData() {
+    await AsyncStorage.removeItem('@userCredentials');
+  }
+
+  // Funcao responsavel por fazer logout do usuario
   async function signOut() {
     setLoading(true);
     await auth()
       .signOut()
       .then(() => {
         setUser(null);
+        removeUserData();
       });
     setLoading(false);
   }
