@@ -8,10 +8,14 @@ import {
   View,
 } from 'react-native';
 import React, { useContext, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
+import { colors } from '../../constants/colors';
+
+// Utilizar icons
 import Feather from 'react-native-vector-icons/Feather';
 
-import { useNavigation } from '@react-navigation/native';
+// Contexto que gerencia a parte de autenticacao
 import { AuthContext } from '../../contexts/auth';
 
 export default function SignUp() {
@@ -68,15 +72,17 @@ export default function SignUp() {
               onChangeText={text => setName(text)}
               maxLength={20}
               placeholderTextColor={'#888'}
+              style={{ color: colors.input }}
             />
 
             <TextInput
               placeholder="Digite seu e-mail"
-              className="bg-neutral-100 pl-4 py-4 rounded text-lg "
+              className="bg-neutral-100 pl-4 py-4 rounded text-lg"
               value={email}
               onChangeText={text => setEmail(text)}
               maxLength={60}
               placeholderTextColor={'#888'}
+              style={{ color: colors.input }}
             />
 
             <TextInput
@@ -87,18 +93,18 @@ export default function SignUp() {
               onChangeText={text => setPassword(text)}
               maxLength={20}
               placeholderTextColor={'#888'}
-              style={{ color: '#888' }}
+              style={{ color: colors.input }}
             />
 
             <TextInput
               placeholder="Confirme a senha"
-              className="bg-neutral-100 pl-4 py-4 rounded text-lg"
+              className="bg-neutral-100 pl-4 py-4 rounded text-lg ring-blue-950"
               secureTextEntry={!showPass}
               value={confirmPassword}
               onChangeText={text => setConfirmPassword(text)}
               maxLength={20}
               placeholderTextColor={'#888'}
-              style={{ color: '#888' }}
+              style={{ color: colors.input }}
             />
 
             <TouchableOpacity

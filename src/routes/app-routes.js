@@ -23,7 +23,7 @@ export default function AppRoutes() {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          height: 50,
+          height: 55,
         },
         tabBarIconStyle: {
           marginTop: 5,
@@ -36,7 +36,7 @@ export default function AppRoutes() {
         component={Receitas}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Lucide name="chef-hat" color={color} size={size} />
+            <Lucide name="chef-hat" color={color} size={30} />
           ),
         }}
       />
@@ -46,7 +46,7 @@ export default function AppRoutes() {
         component={Treinos}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Lucide name="dumbbell" color={color} size={size} />
+            <Lucide name="dumbbell" color={color} size={30} />
           ),
         }}
       />
@@ -56,7 +56,7 @@ export default function AppRoutes() {
         component={Home}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Feather name="home" color={color} size={size} />
+            <Feather name="home" color={color} size={30} />
           ),
         }}
       />
@@ -66,7 +66,7 @@ export default function AppRoutes() {
         component={Chat}
         options={{
           tabBarIcon: ({ color, size }) => {
-            return <Lucide name="messages-square" color={color} size={size} />;
+            return <Lucide name="messages-square" color={color} size={30} />;
           },
         }}
       />
@@ -76,7 +76,7 @@ export default function AppRoutes() {
         component={Profile}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Feather name="user" color={color} size={size} />
+            <Feather name="user" color={color} size={30} />
           ),
         }}
       />

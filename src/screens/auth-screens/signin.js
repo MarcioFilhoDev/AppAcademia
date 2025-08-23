@@ -10,6 +10,8 @@ import {
 import React, { useState, useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
+import { colors } from '../../constants/colors';
+
 import Feather from 'react-native-vector-icons/Feather';
 
 import { AuthContext } from '../../contexts/auth';
@@ -47,20 +49,20 @@ export default function SignIn() {
             {/* Campo do email */}
             <TextInput
               placeholder="E-mail"
-              className="bg-neutral-100 pl-4 py-4 rounded text-lg "
+              className="bg-neutral-100 pl-4 py-4 rounded text-lg elevation-sm"
               value={email}
               onChangeText={text => setEmail(text)}
-              placeholderTextColor={'#888'}
+              style={{ color: colors.input }}
             />
 
             {/* Campo da senha */}
             <TextInput
               placeholder="Senha"
-              className="bg-neutral-100 pl-4 py-4 rounded text-lg text-black"
+              className="bg-neutral-100 pl-4 py-4 rounded text-lg elevation-sm"
               secureTextEntry={!showPass}
               value={password}
               onChangeText={text => setPassword(text)}
-              placeholderTextColor={'#888'}
+              style={{ color: colors.input }}
             />
 
             {/*  */}
