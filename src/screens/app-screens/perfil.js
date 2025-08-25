@@ -12,7 +12,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
 
 import { AuthContext } from '../../contexts/auth';
-import Formulario from '../../components/formulario';
+import Formulario from '../../components/pefil/formulario';
 
 export default function Profile() {
   const { user, signOut } = useContext(AuthContext);

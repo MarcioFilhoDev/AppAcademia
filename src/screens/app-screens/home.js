@@ -145,6 +145,7 @@ export default function Home() {
                       size={20}
                       color={progresso[diaID] === 1 ? 'green' : '#1f2937'}
                     />
+
                     <Text className="capitalize mt-1 text-slate-900">
                       {diaID}
                     </Text>
