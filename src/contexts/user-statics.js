@@ -28,12 +28,12 @@ export function UserStaticsProvider({ children }) {
 
         // Caso exista, envia um vetor com as informacoes de peso e altura
         if (snap.exists) {
-          Alert.alert(
-            'Documento existe',
-            `${snap.data().peso} | ${snap.data().altura}`,
-          );
+          // Alert.alert(
+          //   'Documento existe',
+          //   `${snap.data().peso} | ${snap.data().altura}`,
+          // );
         } else {
-          Alert.alert('Documento não existe');
+          // Alert.alert('Documento não existe');
         }
       }
 

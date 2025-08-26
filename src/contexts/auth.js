@@ -117,6 +117,9 @@ export function AuthProvider({ children }) {
 
         // Retirando tela de loading
         setLoading(false);
+      })
+      .catch(error => {
+        Alert.alert('Erro', error.message);
       });
 
     setLoading(false);
@@ -135,8 +138,72 @@ export function AuthProvider({ children }) {
       .then(() => {
         setUser(null);
         removeUserData();
+      })
+      .catch(error => {
+        Alert.alert('erro', error.message);
       });
     setLoading(false);
+  }
+
+  // async function deleteAccount() {
+  //   setLoading(true);
+
+  //   const usuario = auth().currentUser();
+
+  //   // Verificando se tem usuario logado
+  //   if (usuario) {
+  //     await usuario.delete();
+
+  //     // Se deletou os dados do usuario do firebase entao...
+  //     // Deleta a colecao criada para esse usuario
+  //     await firestore().collection('users').doc(user.userID).delete();
+
+  //     // Deleta a colecao de progressao semanal
+  //     await firestore()
+  //       .collection('users_week_progress')
+  //       .doc(user.userID)
+  //       .delete();
+
+  //     // Remover sessão do usuario
+  //     setUser(null);
+
+  //     // Removendo dados salvos no dispostivos
+  //     removeUserData();
+
+  //     setLoading(false);
+  //   } else {
+  //     Alert.alert('Erro', 'Nenhum usuário encontrado');
+  //   }
+  // }
+
+  async function deleteAccount() {
+    setLoading(true);
+    try {
+      // Usuário autenticado atual
+      const usuario = auth().currentUser;
+
+      if (usuario) {
+        // Deleta usuário do Firebase Authentication
+        await usuario.delete();
+
+        // Deleta dados do Firestore
+        await firestore().collection('users').doc(user.userID).delete();
+        await firestore()
+          .collection('users_week_progress')
+          .doc(user.userID)
+          .delete();
+
+        // Limpa sessão
+        setUser(null);
+        removeUserData();
+      } else {
+        Alert.alert('Erro', 'Nenhum usuário autenticado encontrado');
+      }
+    } catch (error) {
+      Alert.alert('Erro ao deletar conta', error.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   // Responsavel por adicionar carregamento
@@ -150,7 +217,14 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ userSigned: !!user, user, signUp, signIn, signOut }}
+      value={{
+        userSigned: !!user,
+        user,
+        signUp,
+        signIn,
+        signOut,
+        deleteAccount,
+      }}
     >
       {children}
     </AuthContext.Provider>
