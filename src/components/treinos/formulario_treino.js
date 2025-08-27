@@ -1,7 +1,7 @@
 import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
 import Lucide from '@react-native-vector-icons/lucide';
-import { colors } from '../constants/colors';
+import { colors } from '../../constants/colors';
 
 export default function FormularioTreino() {
   const [quantidadeTreinos, setQuantidadeTreinos] = useState(0);

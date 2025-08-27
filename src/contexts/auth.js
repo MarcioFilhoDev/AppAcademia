@@ -145,37 +145,7 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }
 
-  // async function deleteAccount() {
-  //   setLoading(true);
-
-  //   const usuario = auth().currentUser();
-
-  //   // Verificando se tem usuario logado
-  //   if (usuario) {
-  //     await usuario.delete();
-
-  //     // Se deletou os dados do usuario do firebase entao...
-  //     // Deleta a colecao criada para esse usuario
-  //     await firestore().collection('users').doc(user.userID).delete();
-
-  //     // Deleta a colecao de progressao semanal
-  //     await firestore()
-  //       .collection('users_week_progress')
-  //       .doc(user.userID)
-  //       .delete();
-
-  //     // Remover sessão do usuario
-  //     setUser(null);
-
-  //     // Removendo dados salvos no dispostivos
-  //     removeUserData();
-
-  //     setLoading(false);
-  //   } else {
-  //     Alert.alert('Erro', 'Nenhum usuário encontrado');
-  //   }
-  // }
-
+  // Funcao responsavel por deletar conta do usuario
   async function deleteAccount() {
     setLoading(true);
     try {

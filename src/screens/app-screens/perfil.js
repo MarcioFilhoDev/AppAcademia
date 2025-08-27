@@ -8,8 +8,8 @@ import {
 import React, { useContext, useRef, useState } from 'react';
 
 import { AuthContext } from '../../contexts/auth';
-import Formulario from '../../components/pefil/formulario';
-import CardProfile from '../../components/card_profile';
+import Formulario from '../../components/perfil/formulario';
+import CardProfile from '../../components/perfil/card_profile';
 import Lucide from '@react-native-vector-icons/lucide';
 import { colors } from '../../constants/colors';
 
@@ -110,8 +110,6 @@ export default function Profile() {
           <Text> </Text>
         </View>
       )}
-
-      {/* <Button onPress={handleSignOut} title="Sair" /> */}
     </ScrollView>
   );
 }

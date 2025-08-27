@@ -2,7 +2,7 @@ import { StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
 
 import { colors } from '../../constants/colors';
-import FormularioTreino from '../../components/formulario_treino';
+import FormularioTreino from '../../components/treinos/formulario_treino';
 
 export default function Treinos() {
   // Verificacao se existe algum documento com id do usuario

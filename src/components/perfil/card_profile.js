@@ -8,7 +8,7 @@ import {
 import React, { useContext, useEffect, useState } from 'react';
 
 import firestore from '@react-native-firebase/firestore';
-import { AuthContext } from '../contexts/auth';
+import { AuthContext } from '../../contexts/auth';
 
 export default function CardProfile({ abrirFormulario }) {
   const { user } = useContext(AuthContext);
@@ -71,21 +71,22 @@ export default function CardProfile({ abrirFormulario }) {
   }, [user?.userID]);
 
   return (
-    <View className="mx-4 -mt-16 bg-white rounded-3xl elevation p-6 items-center">
+    <View className="mx-4 -mt-16 bg-white rounded-xl elevation p-6 items-center">
       {/* Foto do usuário - sistema de armazenamento das fotos com cloud storage */}
       <Image
         source={{ uri: 'https://i.pravatar.cc/301' }}
         className="w-28 h-28 rounded-full border-4 border-white -mt-16"
       />
 
-      {/* Nome e infos */}
-      <Text className="mt-4 text-xl font-bold text-gray-800">{user.nome}</Text>
+      {/* Nome e informacoes */}
+      <Text className="mt-2 text-xl font-bold text-gray-800">{user.nome}</Text>
+
       <Text className="text-gray-500">
         Membro desde {createdAt ? createdAt.getFullYear() : 'Carregando...'}
       </Text>
 
       {/* Informações */}
-      <View className="flex-row mt-6 justify-around w-full">
+      <View className="flex-row mt-3 justify-around w-full">
         <View className="items-center">
           <Text className="text-lg font-bold text-gray-800 justify-center">
             {loading ? (
