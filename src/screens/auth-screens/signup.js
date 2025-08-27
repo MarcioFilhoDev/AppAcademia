@@ -29,15 +29,29 @@ export default function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   async function handleSignUp() {
-    if (
-      name === '' ||
-      email === '' ||
-      password === '' ||
-      confirmPassword === ''
-    ) {
-      Alert.alert('Erro.', 'Preencha os dados corretamente.');
+    // Remover todos os espaços vazios
+    let nomeReal = name.trim();
+    let emailReal = email.trim();
+    let passwordReal = password.trim();
+    let confirmPasswordReal = confirmPassword.trim();
+
+    // Verificando se todos os campos estao preenchidos
+    if (!nomeReal || !emailReal || !passwordReal || !confirmPasswordReal) {
+      Alert.alert('Campos inválidos', 'Existem campos vazios.');
       return;
-    } else if (password !== confirmPassword) {
+    } else if (nomeReal.length < 3) {
+      Alert.alert('Nome inválido', 'O nome não pode ser pequeno assim.');
+      return;
+    } else if (emailReal.length < 8) {
+      Alert.alert('E-mail inválido', 'O e-mail é muito curto.');
+      return;
+    } else if (passwordReal.length < 6) {
+      Alert.alert(
+        'Senha inválida',
+        'A senha precisa ter pelo menos 6 caracteres.',
+      );
+      return;
+    } else if (passwordReal !== confirmPasswordReal) {
       Alert.alert('Erro.', 'As senhas não coincidem.');
       return;
     }
@@ -67,44 +81,52 @@ export default function SignUp() {
           <View className="gap-3">
             <TextInput
               placeholder="Digite seu nome"
-              className="bg-neutral-100 pl-4 py-4 rounded text-lg"
+              className="bg-neutral-100 pl-4 py-4 rounded text-lg elevation-sm"
               value={name}
               onChangeText={text => setName(text)}
               maxLength={20}
               placeholderTextColor={'#888'}
+              autoCapitalize="none"
+              disableKeyboardShortcuts={true}
               style={{ color: colors.input }}
             />
 
             <TextInput
               placeholder="Digite seu e-mail"
-              className="bg-neutral-100 pl-4 py-4 rounded text-lg"
+              className="bg-neutral-100 pl-4 py-4 rounded text-lg elevation-sm"
               value={email}
               onChangeText={text => setEmail(text)}
               maxLength={60}
               placeholderTextColor={'#888'}
               style={{ color: colors.input }}
+              autoCapitalize="none"
+              disableKeyboardShortcuts={true}
             />
 
             <TextInput
               placeholder="Digite sua senha"
-              className="bg-neutral-100 pl-4 py-4 rounded text-lg"
+              className="bg-neutral-100 pl-4 py-4 rounded text-lg elevation-sm"
               secureTextEntry={!showPass}
               value={password}
               onChangeText={text => setPassword(text)}
               maxLength={20}
               placeholderTextColor={'#888'}
               style={{ color: colors.input }}
+              autoCapitalize="none"
+              disableKeyboardShortcuts={true}
             />
 
             <TextInput
               placeholder="Confirme a senha"
-              className="bg-neutral-100 pl-4 py-4 rounded text-lg ring-blue-950"
+              className="bg-neutral-100 pl-4 py-4 rounded text-lg ring-blue-950 elevation-sm"
               secureTextEntry={!showPass}
               value={confirmPassword}
               onChangeText={text => setConfirmPassword(text)}
               maxLength={20}
               placeholderTextColor={'#888'}
               style={{ color: colors.input }}
+              autoCapitalize="none"
+              disableKeyboardShortcuts={true}
             />
 
             <TouchableOpacity

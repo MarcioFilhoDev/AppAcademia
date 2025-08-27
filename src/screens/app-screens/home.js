@@ -26,6 +26,16 @@ export default function Home() {
 
   const [progresso, setProgresso] = useState({});
 
+  const diasSemana = [
+    { id: 'domingo', label: 'dom.' },
+    { id: 'segunda-feira', label: 'seg.' },
+    { id: 'terca-feira', label: 'ter.' },
+    { id: 'quarta-feira', label: 'qua.' },
+    { id: 'quinta-feira', label: 'qui.' },
+    { id: 'sexta-feira', label: 'sex.' },
+    { id: 'sabado', label: 'sab.' },
+  ];
+
   useFocusEffect(
     useCallback(() => {
       function message() {
@@ -134,25 +144,16 @@ export default function Home() {
           </Text>
 
           <View className="flex-row gap-3.5">
-            {['dom.', 'seg.', 'ter.', 'quar.', 'quin.', 'sex.', 'sab.'].map(
-              diaID => {
-                return (
-                  <View key={diaID} className="items-center">
-                    <Lucide
-                      name={
-                        progresso[diaID] === 1 ? 'circle-check-big' : 'circle'
-                      }
-                      size={20}
-                      color={progresso[diaID] === 1 ? 'green' : '#1f2937'}
-                    />
-
-                    <Text className="capitalize mt-1 text-slate-900">
-                      {diaID}
-                    </Text>
-                  </View>
-                );
-              },
-            )}
+            {diasSemana.map(({ id, label }) => (
+              <View key={id} className="items-center">
+                <Lucide
+                  name={progresso?.[id] === 1 ? 'circle-check-big' : 'circle'}
+                  size={20}
+                  color={progresso?.[id] === 1 ? 'green' : '#1f2937'}
+                />
+                <Text className="capitalize mt-1 text-slate-900">{label}</Text>
+              </View>
+            ))}
           </View>
         </View>
       </View>
@@ -164,7 +165,7 @@ export default function Home() {
             */}
       <ScrollView className="flex-1 mx-4 my-4 flex-col">
         {/* Treino de segunda */}
-        <View className="flex-1 bg-white p-4 rounded elevation">
+        {/* <View className="flex-1 bg-white p-4 rounded elevation">
           <Text>Segunda - Peito e triceps</Text>
 
           <View className="h-0.5 bg-black opacity-25 my-4">
@@ -196,7 +197,7 @@ export default function Home() {
               </View>
             </View>
           </View>
-        </View>
+        </View> */}
       </ScrollView>
     </View>
   );

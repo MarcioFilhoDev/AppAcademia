@@ -131,7 +131,7 @@ export default function CardProfile({ abrirFormulario }) {
         {/* Alterar foto */}
         <TouchableOpacity
           activeOpacity={0.75}
-          className="bg-gray-200 px-6 py-3 rounded-xl"
+          className="bg-gray-200 px-6 py-3 rounded-xl elevation"
         >
           <Text className="text-gray-800 font-semibold">Alterar foto</Text>
         </TouchableOpacity>

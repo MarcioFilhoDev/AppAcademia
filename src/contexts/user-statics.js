@@ -21,7 +21,7 @@ export function UserStaticsProvider({ children }) {
         setLoading(true);
 
         const documento = firestore()
-          .collection('users-statics')
+          .collection('users_statics')
           .doc(user.userID);
 
         const snap = await documento.get();
@@ -45,7 +45,7 @@ export function UserStaticsProvider({ children }) {
   async function changeWeight(peso, altura) {
     // Primeiro verifica se existe um documento criado
 
-    await firestore().collection('users-statics').doc(user.userID).set({
+    await firestore().collection('users_statics').doc(user.userID).set({
       peso: peso,
       altura: altura,
       ultima_atualizacao: new Date(),

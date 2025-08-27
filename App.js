@@ -1,3 +1,5 @@
+globalThis.RNFB_SILENCE_MODULAR_DEPRECATION_WARNINGS = true;
+
 import './global.css';
 
 import React from 'react';

@@ -1,11 +1,24 @@
 import { StatusBar, Text, TouchableOpacity, View } from 'react-native';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
+import { AuthContext } from '../../contexts/auth';
 import { colors } from '../../constants/colors';
+
+import firestore from '@react-native-firebase/firestore';
+
+// Telas
 import FormularioTreino from '../../components/treinos/formulario_treino';
 
 export default function Treinos() {
   // Verificacao se existe algum documento com id do usuario
+  const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    async function getExistDoc() {
+      await firestore().collection('');
+    }
+  }, []);
+
   const [statusPerguntas, setStatusPerguntas] = useState(true);
 
   return (

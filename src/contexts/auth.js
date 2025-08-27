@@ -60,18 +60,8 @@ export function AuthProvider({ children }) {
 
           // Se deu certo a criacao dos dados do usuario no firestore
           // Envia os dados do usuario para a variavel user
-          .then(async () => {
+          .then(() => {
             // Criando colecao para cada usuario cadastrado
-            await firestore().collection('users_week_progress').doc(uid).set({
-              domingo: 0,
-              segunda: 0,
-              terca: 0,
-              quarta: 0,
-              quinta: 0,
-              sexta: 0,
-              sabado: 0,
-              last_update: new Date(),
-            });
             let data = {
               userID: uid,
               nome: name,
@@ -85,7 +75,10 @@ export function AuthProvider({ children }) {
 
       // Se deu errado executa catch
       .catch(error => {
-        console.log('Error', error.message);
+        if (error.message === 'auth/invalid-email') {
+          Alert.alert('E-mail inválido', 'Insira um e-mail válido');
+        }
+        Alert.alert('Error', error.message);
       });
 
     setLoading(false);
@@ -105,7 +98,7 @@ export function AuthProvider({ children }) {
 
         let result_data = {
           userID: uid,
-          nome: data.data().name,
+          nome: data.data().nome,
           email: value.user.email,
         };
 
@@ -147,6 +140,7 @@ export function AuthProvider({ children }) {
 
   // Funcao responsavel por deletar conta do usuario
   async function deleteAccount() {
+    // Deletar colecoes: users, users_week_progress, users_statics
     setLoading(true);
     try {
       // Usuário autenticado atual
@@ -162,6 +156,7 @@ export function AuthProvider({ children }) {
           .collection('users_week_progress')
           .doc(user.userID)
           .delete();
+        await firestore().collection('users_statics').doc(user.userID).delete();
 
         // Limpa sessão
         setUser(null);
