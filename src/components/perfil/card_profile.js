@@ -17,7 +17,8 @@ export default function CardProfile({ abrirFormulario }) {
   const { info, loading } = useContext(InfoContext);
 
   // falso -> nao existe dados | true -> exite dados
-  const [acao, setAcao] = useState(false);
+  // CASO USUARIO TENHA o documento criado retorna true
+  const [acao, setAcao] = useState(true);
 
   const [createdAt, setCreatedAt] = useState('');
 

@@ -156,7 +156,7 @@ export function AuthProvider({ children }) {
           .collection('users_week_progress')
           .doc(user.userID)
           .delete();
-        await firestore().collection('users_statics').doc(user.userID).delete();
+        await firestore().collection('user_statics').doc(user.userID).delete();
 
         // Limpa sessão
         setUser(null);

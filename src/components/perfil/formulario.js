@@ -53,6 +53,7 @@ export default function Formulario({ fecharFormulario }) {
           <Text className="text-lg mb-2 text-gray-800">Seu peso atual:</Text>
           <TextInput
             placeholder="Exemplo: 64.8"
+            placeholderTextColor={colors.input}
             keyboardType="number-pad"
             className="bg-slate-50 rounded-md px-4 py-2 mb-4 border border-gray-300"
             maxLength={6}
@@ -64,6 +65,7 @@ export default function Formulario({ fecharFormulario }) {
           <Text className="text-lg mb-2 text-gray-800">Sua altura:</Text>
           <TextInput
             placeholder="Exemplo: 1.75"
+            placeholderTextColor={colors.input}
             keyboardType="number-pad"
             className="bg-slate-50 rounded-md px-4 py-2 mb-6 border border-gray-300"
             maxLength={4}
