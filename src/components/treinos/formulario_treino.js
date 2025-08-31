@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Lucide from '@react-native-vector-icons/lucide';
 import { colors } from '../../constants/colors';
 
-export default function FormularioTreino() {
+export default function FormularioTreino({ fechar }) {
   const [quantidadeTreinos, setQuantidadeTreinos] = useState(0);
 
   const objetivos = ['Hipertrofia', 'Emagrecimento', 'Condicionamento'];
@@ -40,6 +40,10 @@ export default function FormularioTreino() {
       }
       Alert.alert('Sucesso', 'Seus dados foram enviados para análise.');
     }
+  }
+
+  function handleCancel() {
+    fechar();
   }
 
   return (
@@ -127,7 +131,7 @@ export default function FormularioTreino() {
           Sente dor ao realizar algum exercício ou movimento?
         </Text>
 
-        <View className="flex-row">
+        <View className="flex-row w-full justify-between">
           {['Sim', 'Não'].map(opcao => {
             const selected = dor === opcao; // dor é o estado que você precisa criar
             return (
@@ -139,11 +143,9 @@ export default function FormularioTreino() {
                 }}
                 style={{
                   borderColor: selected ? colors.primary : '#dadada',
-                  borderWidth: 2,
                   backgroundColor: '#dadada',
-                  width: '50%',
                 }}
-                className="py-2 rounded-lg items-center border"
+                className={`py-2 rounded-lg items-center w-5/12 mx-4 border-2 elevation-sm`}
               >
                 <Text
                   className={`${
@@ -172,11 +174,8 @@ export default function FormularioTreino() {
               }
               placeholder="Descreva sua dor com detalhes"
               placeholderTextColor={colors.input}
+              className="rounded-md mt-1 px-3 bg-gray-400/30"
               style={{
-                backgroundColor: '#99999940',
-                borderRadius: 6,
-                marginTop: 4,
-                paddingHorizontal: 10,
                 height: alturaCampo,
               }}
             />
@@ -227,6 +226,10 @@ export default function FormularioTreino() {
         }}
       >
         <Text className="text-center text-lg font-medium">Enviar dados</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={handleCancel}>
+        <Text>Responder mais tarde</Text>
       </TouchableOpacity>
     </View>
   );

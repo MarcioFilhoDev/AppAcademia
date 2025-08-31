@@ -9,13 +9,12 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import firestore from '@react-native-firebase/firestore';
 import { AuthContext } from '../../contexts/auth';
+import { InfoContext } from '../../contexts/info';
 
 export default function CardProfile({ abrirFormulario }) {
   const { user } = useContext(AuthContext);
 
-  const [loading, setLoading] = useState(true);
-  const [peso, setPeso] = useState('');
-  const [altura, setAltura] = useState('');
+  const { info, loading } = useContext(InfoContext);
 
   // falso -> nao existe dados | true -> exite dados
   const [acao, setAcao] = useState(false);
@@ -37,37 +36,7 @@ export default function CardProfile({ abrirFormulario }) {
       setCreatedAt(createdDate);
     }
 
-    // Resgatando peso e altura salvos
-    async function getPesoEAltura() {
-      // 1 - Verificando se existe o documento criado pelo usuario
-      // Se não existir, renderiza um texto e um botão para inserir mais dados
-      const data = await firestore()
-        .collection('users-statics')
-        .doc(user.userID)
-        .get();
-
-      // Verificando se existe o documento
-      if (data.exists) {
-        const dadosDoUsuario = data.data();
-
-        if (dadosDoUsuario) {
-          setLoading(false);
-          setAcao(true);
-          setPeso(dadosDoUsuario?.peso ?? '');
-          setAltura(dadosDoUsuario?.altura ?? '');
-        } else {
-          // Se não existir o documento, então renderiza outra coisa
-          setAcao(false);
-          setLoading(false);
-        }
-      } else {
-        setAcao(false);
-        setLoading(false);
-      }
-    }
-
     getCreatedUserDate();
-    getPesoEAltura();
   }, [user?.userID]);
 
   return (
@@ -80,13 +49,13 @@ export default function CardProfile({ abrirFormulario }) {
 
       {/* Nome e informacoes */}
       <Text className="mt-2 text-xl font-bold text-gray-800">{user.nome}</Text>
-
       <Text className="text-gray-500">
         Membro desde {createdAt ? createdAt.getFullYear() : 'Carregando...'}
       </Text>
 
-      {/* Informações */}
+      {/* Informações - Peso | Altura */}
       <View className="flex-row mt-3 justify-around w-full">
+        {/* Local do peso */}
         <View className="items-center">
           <Text className="text-lg font-bold text-gray-800 justify-center">
             {loading ? (
@@ -96,10 +65,12 @@ export default function CardProfile({ abrirFormulario }) {
                 <Text> </Text>
               </View>
             )}
-            {peso} kg
+            {info?.peso ?? ''} kg
           </Text>
           <Text className="text-sm text-gray-500">Peso</Text>
         </View>
+
+        {/* Local da altura */}
         <View className="items-center">
           <Text className="text-lg font-bold text-gray-800">
             {loading ? (
@@ -109,7 +80,7 @@ export default function CardProfile({ abrirFormulario }) {
                 <Text> </Text>
               </View>
             )}
-            {altura} m
+            {info?.altura ?? ''} m
           </Text>
           <Text className="text-sm text-gray-500">Altura</Text>
         </View>
@@ -117,9 +88,10 @@ export default function CardProfile({ abrirFormulario }) {
 
       {/* Botões de ação */}
       <View className="flex-row mt-6 w-full justify-around">
+        {/* Botao para Editar/Inserir dados */}
         <TouchableOpacity
-          activeOpacity={0.75}
           onPress={() => abrirFormulario()}
+          activeOpacity={0.75}
           className="px-6 py-3 rounded-xl bg-orange-400 elevation-sm"
         >
           <Text className="text-neutral-900 font-semibold">

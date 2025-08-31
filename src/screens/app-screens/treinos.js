@@ -1,5 +1,5 @@
 import { StatusBar, Text, TouchableOpacity, View } from 'react-native';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 
 import { AuthContext } from '../../contexts/auth';
 import { colors } from '../../constants/colors';
@@ -8,18 +8,33 @@ import firestore from '@react-native-firebase/firestore';
 
 // Telas
 import FormularioTreino from '../../components/treinos/formulario_treino';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function Treinos() {
   // Verificacao se existe algum documento com id do usuario
   const { user } = useContext(AuthContext);
 
-  useEffect(() => {
-    async function getExistDoc() {
-      await firestore().collection('');
-    }
-  }, []);
+  const [statusPerguntas, setStatusPerguntas] = useState(null);
 
-  const [statusPerguntas, setStatusPerguntas] = useState(true);
+  useFocusEffect(
+    useCallback(() => {
+      async function checkCollection() {
+        const searchDoc = await firestore()
+          .collection('users_progress_week')
+          .where('userID', '==', user.userID)
+          .limit(1)
+          .get();
+
+        if (!searchDoc.empty) {
+          // Alert.alert('Encontrado');
+        } else {
+          // Alert.alert('Não respondeu o questionário.');
+        }
+      }
+
+      checkCollection();
+    }, [user.userID]),
+  );
 
   return (
     <View className="flex-1 px-6">
@@ -45,10 +60,11 @@ export default function Treinos() {
       </View>
 
       {statusPerguntas ? (
-        <FormularioTreino />
+        <FormularioTreino fechar={() => setStatusPerguntas(false)} />
       ) : (
-        <View className="w-4/5 items-center">
+        <View className="w-full items-center">
           <TouchableOpacity
+            onPress={() => setStatusPerguntas(true)}
             activeOpacity={0.7}
             style={{ backgroundColor: colors.primary }}
             className="w-1/2 py-3.5 rounded-md elevation"
@@ -59,7 +75,7 @@ export default function Treinos() {
           </TouchableOpacity>
 
           <Text className="opacity-45 mt-20">
-            Ainda não temos suas respostas.
+            Você ainda não respondeu o questionário.
           </Text>
         </View>
       )}

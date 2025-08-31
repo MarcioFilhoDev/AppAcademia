@@ -17,11 +17,13 @@ import { colors } from '../../constants/colors';
 import Formulario from '../../components/perfil/formulario';
 import CardProfile from '../../components/perfil/card_profile';
 import Lucide from '@react-native-vector-icons/lucide';
+import IMCCard from '../../components/perfil/card_imc';
+import WaterCard from '../../components/perfil/card_water';
 
 export default function Profile() {
   const { signOut, deleteAccount } = useContext(AuthContext);
 
-  const [formulario, setFormulario] = useState(false);
+  const [formulario, setFormulario] = useState(true);
   const [extraButtons, setExtraButtons] = useState(false);
 
   const anim = useRef(new Animated.Value(0)).current; // controrla aparição
@@ -90,9 +92,9 @@ export default function Profile() {
         Keyboard.dismiss;
         setFormulario(false);
       }}
-      className="flex-1"
+      className="flex-1 w-full"
     >
-      <ScrollView className="flex-1 bg-gray-200">
+      <ScrollView className="flex-1 w-full bg-gray-200">
         {/* Header com imagem de fundo */}
         <View className="h-40 items-end p-4 bg-orange-400">
           <View className="flex-row-reverse gap-4">
@@ -152,14 +154,30 @@ export default function Profile() {
         {/* Card principal */}
         <CardProfile abrirFormulario={() => setFormulario(true)} />
 
-        {/* Formulario */}
-        {formulario ? (
-          <Formulario fecharFormulario={() => setFormulario(false)} />
-        ) : (
-          <View>
-            <Text> </Text>
+        {/* Card do IMC e Formulario */}
+        <View className="flex-1 mt-4 mx-4">
+          <View
+            className={`flex-row items-start gap-${formulario ? '4' : '0'}`}
+          >
+            <View className="flex-1 w-full">
+              <IMCCard />
+            </View>
+
+            {/* Formulario */}
+            {formulario ? (
+              <View className="flex-1">
+                <Formulario fecharFormulario={() => setFormulario(false)} />
+              </View>
+            ) : (
+              <View />
+            )}
           </View>
-        )}
+        </View>
+
+        {/* Card de beber agua */}
+        <View className="flex-1 mt-4 mx-4">
+          <WaterCard />
+        </View>
       </ScrollView>
     </TouchableWithoutFeedback>
   );

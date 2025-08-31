@@ -8,15 +8,15 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import Routes from './src/routes';
 import { AuthProvider } from './src/contexts/auth';
-import { UserStaticsProvider } from './src/contexts/user-statics';
+import { InfoProvider } from './src/contexts/info';
 
 export default function App() {
   return (
     <NavigationContainer>
       <AuthProvider>
-        <UserStaticsProvider>
+        <InfoProvider>
           <Routes />
-        </UserStaticsProvider>
+        </InfoProvider>
       </AuthProvider>
     </NavigationContainer>
   );
