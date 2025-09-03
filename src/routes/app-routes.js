@@ -14,6 +14,7 @@ import Chat from '../screens/app-screens/chat';
 // Import dos icones
 import Feather from 'react-native-vector-icons/Feather';
 import Lucide from '@react-native-vector-icons/lucide';
+import { colors } from '../constants/colors';
 
 export default function AppRoutes() {
   return (
@@ -28,7 +29,7 @@ export default function AppRoutes() {
         tabBarIconStyle: {
           marginTop: 5,
         },
-        tabBarActiveTintColor: 'orange',
+        tabBarActiveTintColor: colors.primary,
       }}
     >
       <Tabs.Screen

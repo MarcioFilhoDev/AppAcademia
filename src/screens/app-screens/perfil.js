@@ -23,7 +23,7 @@ import WaterCard from '../../components/perfil/card_water';
 export default function Profile() {
   const { signOut, deleteAccount } = useContext(AuthContext);
 
-  const [formulario, setFormulario] = useState(true);
+  const [formulario, setFormulario] = useState(false);
   const [extraButtons, setExtraButtons] = useState(false);
 
   const anim = useRef(new Animated.Value(0)).current; // controrla aparição
@@ -94,9 +94,12 @@ export default function Profile() {
       }}
       className="flex-1 w-full"
     >
-      <ScrollView className="flex-1 w-full bg-gray-200">
+      <ScrollView className="flex-1 w-full bg-gray-200 pb-4">
         {/* Header com imagem de fundo */}
-        <View className="h-40 items-end p-4 bg-orange-400">
+        <View
+          className="h-40 items-end p-4"
+          style={{ backgroundColor: colors.primary }}
+        >
           <View className="flex-row-reverse gap-4">
             {/* Open buttons list */}
             <TouchableOpacity

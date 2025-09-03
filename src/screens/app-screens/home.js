@@ -14,6 +14,7 @@ import { AuthContext } from '../../contexts/auth';
 import firestore from '@react-native-firebase/firestore';
 
 import Lucide from '@react-native-vector-icons/lucide';
+import { colors } from '../../constants/colors';
 
 export default function Home() {
   const { user } = useContext(AuthContext);
@@ -120,8 +121,8 @@ export default function Home() {
     <View className="flex-1">
       {/* Mensagem de boas vindas diaria */}
       <View
-        className="bg-orange-400"
         style={{
+          backgroundColor: colors.primary,
           paddingTop: StatusBar.currentHeight / 2,
           paddingBottom: StatusBar.currentHeight / 2,
         }}

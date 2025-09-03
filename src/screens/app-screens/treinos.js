@@ -1,4 +1,4 @@
-import { StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import React, { useCallback, useContext, useState } from 'react';
 
 import { AuthContext } from '../../contexts/auth';
@@ -18,9 +18,11 @@ export default function Treinos() {
 
   useFocusEffect(
     useCallback(() => {
+      setStatusPerguntas(null);
+
       async function checkCollection() {
         const searchDoc = await firestore()
-          .collection('users_progress_week')
+          .collection('user_treinos_config')
           .where('userID', '==', user.userID)
           .limit(1)
           .get();
@@ -28,13 +30,26 @@ export default function Treinos() {
         if (!searchDoc.empty) {
           // Alert.alert('Encontrado');
         } else {
-          // Alert.alert('Não respondeu o questionário.');
+          Alert.alert('Nao Encontrado');
         }
       }
 
       checkCollection();
     }, [user.userID]),
   );
+
+  async function salvarDados(diasTreino, objetivo, dor, descDor) {
+    await firestore().collection('user_treinos_config').doc(user.userID).set({
+      userID: user.userID,
+      qtd_treinos: diasTreino,
+      objetivos: objetivo,
+      dor: dor,
+      descricao_dor: descDor,
+      atualizado_em: new Date(),
+    });
+
+    setStatusPerguntas(null);
+  }
 
   return (
     <View className="flex-1 px-6">
@@ -60,9 +75,13 @@ export default function Treinos() {
       </View>
 
       {statusPerguntas ? (
-        <FormularioTreino fechar={() => setStatusPerguntas(false)} />
+        <FormularioTreino
+          fechar={() => setStatusPerguntas(false)}
+          enviarDados={salvarDados}
+        />
       ) : (
         <View className="w-full items-center">
+          {/* Botão para iniciar teste */}
           <TouchableOpacity
             onPress={() => setStatusPerguntas(true)}
             activeOpacity={0.7}
@@ -70,7 +89,7 @@ export default function Treinos() {
             className="w-1/2 py-3.5 rounded-md elevation"
           >
             <Text className="text-center text-base font-medium ">
-              Começar teste
+              Responder
             </Text>
           </TouchableOpacity>
 

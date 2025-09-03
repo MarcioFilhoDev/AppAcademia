@@ -141,7 +141,8 @@ export default function SignUp() {
             <TouchableOpacity
               onPress={handleSignUp}
               activeOpacity={0.7}
-              className="bg-orange-400 py-3 rounded justify-center items-center elevation"
+              style={{ backgroundColor: colors.primary }}
+              className="py-3 rounded justify-center items-center elevation"
             >
               <Text className="text-xl font-semibold color-white">
                 Criar conta

@@ -3,43 +3,56 @@ import React, { useState } from 'react';
 import Lucide from '@react-native-vector-icons/lucide';
 import { colors } from '../../constants/colors';
 
-export default function FormularioTreino({ fechar }) {
-  const [quantidadeTreinos, setQuantidadeTreinos] = useState(0);
+export default function FormularioTreino({ fechar, enviarDados }) {
+  const [quantidadeTreinos, setQuantidadeTreinos] = useState(1);
 
   const objetivos = ['Hipertrofia', 'Emagrecimento', 'Condicionamento'];
   const [objetivo, setObjetivo] = useState(null);
 
   const [dor, setDor] = useState(null);
   const [descricaoDor, setDesricaoDor] = useState('');
+
   const [alturaCampo, setAlturaCampo] = useState(40);
   const [maxLength, setMaxLengh] = useState(1000);
 
   function handleSendInformation() {
-    if (quantidadeTreinos === 0) {
+    if (quantidadeTreinos === 1) {
       Alert.alert(
         'Aviso!',
         'A quantidade de treinos na semana precisa ser maior que 1',
       );
       return;
-    } else if (objetivo === null) {
+    }
+
+    if (objetivo === null) {
       Alert.alert('Aviso!', 'Selecione uma categoria para seu objetivo.');
       return;
-    } else if (dor === null) {
+    }
+
+    if (dor === null) {
       Alert.alert(
         'Aviso!',
         'Se você não possui dores, deve marcar a opção "Não".',
       );
       return;
-    } else if (dor === true) {
-      if (descricaoDor === '') {
-        Alert.alert(
-          'Aviso!',
-          'Não é possível enviar os dados se sua descrição for nula.',
-        );
-        return;
-      }
-      Alert.alert('Sucesso', 'Seus dados foram enviados para análise.');
     }
+
+    if (dor === 'Sim' && descricaoDor === '') {
+      Alert.alert(
+        'Aviso!',
+        'Não é possível enviar os dados se sua descrição for nula.',
+      );
+      return;
+    }
+
+    // Sucesso e enviando os dados para firestore
+    enviarDados(quantidadeTreinos, objetivo, dor, descricaoDor);
+
+    // Reset nos valores
+    setObjetivo(null);
+    setQuantidadeTreinos(1);
+    setDor(null);
+    setDesricaoDor('');
   }
 
   function handleCancel() {
@@ -47,11 +60,41 @@ export default function FormularioTreino({ fechar }) {
   }
 
   return (
-    <View className="h-full">
+    <View className="h-full gap-6">
+      {/* Quantidade de treinos por semana */}
       <View className="flex-row items-center bg-white p-4 elevation rounded-md">
         <Text className="text-xl">Treinos por semana: </Text>
 
         <View className="flex-row items-center">
+          {/* Botão aumentar quantidade de treinos */}
+          <TouchableOpacity
+            disabled={quantidadeTreinos === 1 ? true : false}
+            onPress={() => {
+              if (quantidadeTreinos === 1) {
+                setQuantidadeTreinos(1);
+              } else {
+                setQuantidadeTreinos(quantidadeTreinos - 1);
+              }
+            }}
+          >
+            <Lucide
+              name="circle-minus"
+              size={24}
+              color={quantidadeTreinos === 1 ? '#999' : colors.primary}
+            />
+          </TouchableOpacity>
+
+          <TextInput
+            className="text-2xl w-12 text-center"
+            style={{ color: colors.input }}
+            placeholder="0"
+            placeholderTextColor={colors.input}
+            aria-valuemax={6}
+            editable={false}
+            value={quantidadeTreinos.toString()}
+          />
+
+          {/* Botão reduzir quantidade de treinos */}
           <TouchableOpacity
             disabled={quantidadeTreinos === 6 ? true : false}
             onPress={() => {
@@ -68,37 +111,11 @@ export default function FormularioTreino({ fechar }) {
               color={quantidadeTreinos === 6 ? '#999' : colors.primary}
             />
           </TouchableOpacity>
-
-          <TextInput
-            className="text-2xl w-12 text-center"
-            style={{ color: colors.input }}
-            placeholder="0"
-            placeholderTextColor={colors.input}
-            aria-valuemax={6}
-            editable={false}
-            value={quantidadeTreinos.toString()}
-          />
-
-          <TouchableOpacity
-            disabled={quantidadeTreinos === 0 ? true : false}
-            onPress={() => {
-              if (quantidadeTreinos === 0) {
-                setQuantidadeTreinos(0);
-              } else {
-                setQuantidadeTreinos(quantidadeTreinos - 1);
-              }
-            }}
-          >
-            <Lucide
-              name="circle-minus"
-              size={24}
-              color={quantidadeTreinos === 0 ? '#999' : colors.primary}
-            />
-          </TouchableOpacity>
         </View>
       </View>
 
-      <View className="gap-2 my-4 bg-white p-4 elevation rounded-md">
+      {/* Definindo objetivo */}
+      <View className="gap-2 bg-white p-4 elevation rounded-md">
         <Text className="text-xl ">Qual seu objetivo?</Text>
 
         <View className="flex-row justify-between">
@@ -126,6 +143,7 @@ export default function FormularioTreino({ fechar }) {
         </View>
       </View>
 
+      {/* Descrevendo dores */}
       <View className="gap-2 bg-white p-4 elevation rounded-md">
         <Text className="text-xl">
           Sente dor ao realizar algum exercício ou movimento?
@@ -215,12 +233,12 @@ export default function FormularioTreino({ fechar }) {
         )}
       </View>
 
+      {/* Botão para enviar os dados */}
       <TouchableOpacity
         onPress={handleSendInformation}
         activeOpacity={0.75}
         style={{
           backgroundColor: colors.primary,
-          marginTop: '10%',
           paddingVertical: 12,
           borderRadius: 8,
         }}
@@ -228,8 +246,12 @@ export default function FormularioTreino({ fechar }) {
         <Text className="text-center text-lg font-medium">Enviar dados</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={handleCancel}>
-        <Text>Responder mais tarde</Text>
+      {/* Botão para cancelar */}
+      <TouchableOpacity
+        onPress={handleCancel}
+        className="bg-white p-4 rounded elevation-sm"
+      >
+        <Text className="text-base">Cancelar</Text>
       </TouchableOpacity>
     </View>
   );

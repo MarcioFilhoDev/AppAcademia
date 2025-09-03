@@ -10,6 +10,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
 import { AuthContext } from '../../contexts/auth';
 import { InfoContext } from '../../contexts/info';
+import { colors } from '../../constants/colors';
 
 export default function CardProfile({ abrirFormulario }) {
   const { user } = useContext(AuthContext);
@@ -93,7 +94,8 @@ export default function CardProfile({ abrirFormulario }) {
         <TouchableOpacity
           onPress={() => abrirFormulario()}
           activeOpacity={0.75}
-          className="px-6 py-3 rounded-xl bg-orange-400 elevation-sm"
+          style={{ backgroundColor: colors.primary }}
+          className="px-6 py-3 rounded-xl elevation-sm"
         >
           <Text className="text-neutral-900 font-semibold">
             {acao ? 'Editar ' : 'Inserir '}
