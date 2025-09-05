@@ -1,11 +1,4 @@
-import {
-  Alert,
-  ScrollView,
-  StatusBar,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Alert, FlatList, StatusBar, Text, View } from 'react-native';
 import React, { useCallback, useContext, useState } from 'react';
 
 import { useFocusEffect } from '@react-navigation/native';
@@ -15,6 +8,7 @@ import firestore from '@react-native-firebase/firestore';
 
 import Lucide from '@react-native-vector-icons/lucide';
 import { colors } from '../../constants/colors';
+import CardTreinos from '../../components/home/card_treinos';
 
 export default function Home() {
   const { user } = useContext(AuthContext);
@@ -25,15 +19,16 @@ export default function Home() {
   const [diaSemana, setDiaSemana] = useState('');
   const [mes, setMes] = useState('');
 
+  const [loading, setLoading] = useState(false);
   const [progresso, setProgresso] = useState({});
 
   const diasSemana = [
     { id: 'domingo', label: 'dom.' },
-    { id: 'segunda-feira', label: 'seg.' },
-    { id: 'terca-feira', label: 'ter.' },
-    { id: 'quarta-feira', label: 'qua.' },
-    { id: 'quinta-feira', label: 'qui.' },
-    { id: 'sexta-feira', label: 'sex.' },
+    { id: 'segunda', label: 'seg.' },
+    { id: 'terca', label: 'ter.' },
+    { id: 'quarta', label: 'qua.' },
+    { id: 'quinta', label: 'qui.' },
+    { id: 'sexta', label: 'sex.' },
     { id: 'sabado', label: 'sab.' },
   ];
 
@@ -81,18 +76,35 @@ export default function Home() {
         setMes(meses[date.getMonth().toString()]);
       }
 
-      // Carrega o progresso do usuario
       async function carregarProgresso() {
-        const data = await firestore()
+        setLoading(true);
+
+        const unsubscribe = firestore()
           .collection('users_week_progress')
           .doc(user.userID)
-          .get();
+          .onSnapshot(
+            snapshot => {
+              if (snapshot.exists) {
+                setProgresso(snapshot.data());
+              } else {
+                Alert.alert(
+                  'Aviso',
+                  'Nenhum progresso encontrado para este usuário.',
+                );
+              }
+              setLoading(false);
+            },
+            error => {
+              Alert.alert('Erro', error.message);
+              setLoading(false);
+            },
+          );
 
-        setProgresso(data.data());
+        return unsubscribe;
       }
 
       message();
-      carregarProgresso();
+      // carregarProgresso();
     }, [user.userID]),
   );
 
@@ -159,47 +171,10 @@ export default function Home() {
         </View>
       </View>
 
-      {/* 
-              Fazer sistema de flatlist e renderizar a quantidade de treinos,
-              baseado na quantidade de vezes escolhida pelo usuario na tela de treino            
-            
-            */}
-      <ScrollView className="flex-1 mx-4 my-4 flex-col">
-        {/* Treino de segunda */}
-        {/* <View className="flex-1 bg-white p-4 rounded elevation">
-          <Text>Segunda - Peito e triceps</Text>
+      {/* Fazer sistema de flatlist e renderizar a quantidade de treinos,
+          baseado na quantidade de vezes escolhida pelo usuario na tela de treino */}
 
-          <View className="h-0.5 bg-black opacity-25 my-4">
-            <Text> </Text>
-          </View>
-
-          <View className="h-20 w-20 border rounded flex-1">
-            <View className="border-b justify-center flex-1">
-              <TouchableOpacity className="items-center">
-                <Lucide name="play" size={20} />
-              </TouchableOpacity>
-            </View>
-
-            <View className="flex-2 flex-row">
-              <View className="flex-1 items-center justify-center">
-                <TouchableOpacity className="px-2 py-1">
-                  <Lucide name="circle-check-big" size={16} />
-                </TouchableOpacity>
-              </View>
-
-              <View className="h-full w-0.5 bg-black">
-                <Text> </Text>
-              </View>
-
-              <View className="flex-1 items-center justify-center">
-                <TouchableOpacity className="px-1.5">
-                  <Lucide name="ellipsis-vertical" size={20} />
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </View> */}
-      </ScrollView>
+      <CardTreinos />
     </View>
   );
 }

@@ -9,13 +9,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import Routes from './src/routes';
 import { AuthProvider } from './src/contexts/auth';
 import { InfoProvider } from './src/contexts/info';
+import { TreinoProvider } from './src/contexts/treinos';
 
 export default function App() {
   return (
     <NavigationContainer>
       <AuthProvider>
         <InfoProvider>
-          <Routes />
+          <TreinoProvider>
+            <Routes />
+          </TreinoProvider>
         </InfoProvider>
       </AuthProvider>
     </NavigationContainer>

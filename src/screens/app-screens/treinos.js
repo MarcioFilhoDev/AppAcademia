@@ -1,25 +1,30 @@
 import { Alert, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import React, { useCallback, useContext, useState } from 'react';
 
-import { AuthContext } from '../../contexts/auth';
 import { colors } from '../../constants/colors';
+import { useFocusEffect } from '@react-navigation/native';
 
 import firestore from '@react-native-firebase/firestore';
+import { AuthContext } from '../../contexts/auth';
 
 // Telas
 import FormularioTreino from '../../components/treinos/formulario_treino';
-import { useFocusEffect } from '@react-navigation/native';
+import { TreinoContext } from '../../contexts/treinos';
 
 export default function Treinos() {
+  const { salvarDados } = useContext(TreinoContext);
   // Verificacao se existe algum documento com id do usuario
   const { user } = useContext(AuthContext);
 
   const [statusPerguntas, setStatusPerguntas] = useState(null);
 
+  const [estado, setEstado] = useState(null);
+
   useFocusEffect(
     useCallback(() => {
       setStatusPerguntas(null);
 
+      // Verificacao se existe um documento para alterar o que aparece para ele
       async function checkCollection() {
         const searchDoc = await firestore()
           .collection('user_treinos_config')
@@ -29,27 +34,15 @@ export default function Treinos() {
 
         if (!searchDoc.empty) {
           // Alert.alert('Encontrado');
+          setEstado('Você já realizou o seu pedido de treinos.');
         } else {
-          Alert.alert('Nao Encontrado');
+          setEstado('Você ainda não realizou o seu pedido de treinos');
         }
       }
 
       checkCollection();
     }, [user.userID]),
   );
-
-  async function salvarDados(diasTreino, objetivo, dor, descDor) {
-    await firestore().collection('user_treinos_config').doc(user.userID).set({
-      userID: user.userID,
-      qtd_treinos: diasTreino,
-      objetivos: objetivo,
-      dor: dor,
-      descricao_dor: descDor,
-      atualizado_em: new Date(),
-    });
-
-    setStatusPerguntas(null);
-  }
 
   return (
     <View className="flex-1 px-6">
@@ -58,7 +51,7 @@ export default function Treinos() {
         style={{ paddingTop: StatusBar.currentHeight }}
       >
         <Text className="text-center text-2xl w-3/4">
-          Aqui você defini sua rotina semanal de treinos.
+          Aqui você define a sua rotina semanal de treinos.
         </Text>
       </View>
 
@@ -77,7 +70,10 @@ export default function Treinos() {
       {statusPerguntas ? (
         <FormularioTreino
           fechar={() => setStatusPerguntas(false)}
-          enviarDados={salvarDados}
+          enviarDados={(quantidadeTreinos, objetivo, dor, descricaoDor) => {
+            salvarDados(quantidadeTreinos, objetivo, dor, descricaoDor);
+            setStatusPerguntas(null);
+          }}
         />
       ) : (
         <View className="w-full items-center">
@@ -93,9 +89,7 @@ export default function Treinos() {
             </Text>
           </TouchableOpacity>
 
-          <Text className="opacity-45 mt-20">
-            Você ainda não respondeu o questionário.
-          </Text>
+          <Text className="opacity-45 mt-20">{estado}</Text>
         </View>
       )}
     </View>
