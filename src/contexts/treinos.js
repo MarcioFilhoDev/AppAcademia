@@ -53,7 +53,8 @@ export function TreinoProvider({ children }) {
       atualizado_em: new Date(),
     });
 
-    // Teste para ver como fica
+    // Teste para ver como fica - atraves do aplicativo do professor que vai criar
+    // o documento
     await firestore()
       .collection('user_treinos')
       .doc(user.userID)
@@ -67,21 +68,35 @@ export function TreinoProvider({ children }) {
             exercicios: [
               {
                 nome: 'Supino reto',
+                url_gif:
+                  'https://media.musclewiki.com/media/uploads/videos/branded/male-barbell-bench-press-side_KciuhbB.mp4',
                 series: 4,
                 repeticoes: 12,
+                finalzado: false,
               },
               {
                 nome: 'Supino Inclinado',
                 series: 3,
                 repeticoes: 12,
+                finalzado: false,
               },
             ],
           },
           {
             nome: 'Treino B',
             exercicios: [
-              { nome: 'Agachamento Livre', series: 4, repeticoes: 8 },
-              { nome: 'Leg Press', series: 3, repeticoes: 12 },
+              {
+                nome: 'Agachamento Livre',
+                series: 4,
+                repeticoes: 8,
+                finalzado: false,
+              },
+              {
+                nome: 'Leg Press',
+                series: 3,
+                repeticoes: 12,
+                finalzado: false,
+              },
             ],
           },
         ],

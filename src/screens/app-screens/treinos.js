@@ -9,14 +9,13 @@ import { AuthContext } from '../../contexts/auth';
 
 // Telas
 import FormularioTreino from '../../components/treinos/formulario_treino';
-import { TreinoContext } from '../../contexts/treinos';
 
 export default function Treinos() {
-  const { salvarDados } = useContext(TreinoContext);
   // Verificacao se existe algum documento com id do usuario
   const { user } = useContext(AuthContext);
 
   const [statusPerguntas, setStatusPerguntas] = useState(null);
+  const [block, setBlock] = useState(null);
 
   const [estado, setEstado] = useState(null);
 
@@ -24,7 +23,7 @@ export default function Treinos() {
     useCallback(() => {
       setStatusPerguntas(null);
 
-      // Verificacao se existe um documento para alterar o que aparece para ele
+      // Verificando se existe um documento
       async function checkCollection() {
         const searchDoc = await firestore()
           .collection('user_treinos_config')
@@ -33,9 +32,10 @@ export default function Treinos() {
           .get();
 
         if (!searchDoc.empty) {
-          // Alert.alert('Encontrado');
           setEstado('Você já realizou o seu pedido de treinos.');
+          // setBlock(true);
         } else {
+          // setBlock(false);
           setEstado('Você ainda não realizou o seu pedido de treinos');
         }
       }
@@ -68,20 +68,20 @@ export default function Treinos() {
       </View>
 
       {statusPerguntas ? (
-        <FormularioTreino
-          fechar={() => setStatusPerguntas(false)}
-          enviarDados={(quantidadeTreinos, objetivo, dor, descricaoDor) => {
-            salvarDados(quantidadeTreinos, objetivo, dor, descricaoDor);
-            setStatusPerguntas(null);
-          }}
-        />
+        // Formulario recebe a funcao fechar que minimiza o formulario
+        <FormularioTreino fechar={() => setStatusPerguntas(false)} />
       ) : (
         <View className="w-full items-center">
           {/* Botão para iniciar teste */}
           <TouchableOpacity
+            disabled={block}
             onPress={() => setStatusPerguntas(true)}
             activeOpacity={0.7}
-            style={{ backgroundColor: colors.primary }}
+            style={
+              block
+                ? { backgroundColor: 'grey' }
+                : { backgroundColor: colors.primary }
+            }
             className="w-1/2 py-3.5 rounded-md elevation"
           >
             <Text className="text-center text-base font-medium ">

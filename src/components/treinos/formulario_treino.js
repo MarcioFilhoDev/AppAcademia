@@ -6,11 +6,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Lucide from '@react-native-vector-icons/lucide';
 import { colors } from '../../constants/colors';
+import { TreinoContext } from '../../contexts/treinos';
 
-export default function FormularioTreino({ fechar, enviarDados }) {
+export default function FormularioTreino({ fechar }) {
+  const { salvarDados } = useContext(TreinoContext);
+
   const [quantidadeTreinos, setQuantidadeTreinos] = useState(1);
 
   const objetivos = ['Hipertrofia', 'Emagrecimento', 'Condicionamento'];
@@ -52,14 +55,15 @@ export default function FormularioTreino({ fechar, enviarDados }) {
       return;
     }
 
-    // Sucesso e enviando os dados para firestore
-    enviarDados(quantidadeTreinos, objetivo, dor, descricaoDor);
+    // Envia os dados para firestore e fecha o formulario
+    salvarDados(quantidadeTreinos, objetivo, dor, descricaoDor);
 
     // Reset nos valores
     setObjetivo(null);
     setQuantidadeTreinos(1);
     setDor(null);
     setDesricaoDor('');
+    fechar();
   }
 
   function handleCancel() {
@@ -212,22 +216,20 @@ export default function FormularioTreino({ fechar, enviarDados }) {
               */}
               <View className="self-end">
                 <Text
+                  className="text-sm text-right"
                   style={{
-                    textAlign: 'right',
                     paddingRight: 3,
                     color: '#999',
-                    fontSize: 14,
                   }}
                 >
                   {1000 - descricaoDor.length}
                 </Text>
 
                 <Text
+                  className="text-sm text-right"
                   style={{
-                    textAlign: 'right',
                     paddingRight: 3,
                     color: '#999',
-                    fontSize: 14,
                   }}
                 >
                   caracteres restantes
@@ -245,10 +247,9 @@ export default function FormularioTreino({ fechar, enviarDados }) {
         <TouchableOpacity
           onPress={handleSendInformation}
           activeOpacity={0.75}
+          className="py-3 rounded-lg"
           style={{
             backgroundColor: colors.primary,
-            paddingVertical: 12,
-            borderRadius: 8,
           }}
         >
           <Text className="text-center text-lg font-medium">Enviar dados</Text>
