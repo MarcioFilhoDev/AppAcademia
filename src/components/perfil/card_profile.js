@@ -28,7 +28,7 @@ export default function CardProfile({ abrirFormulario }) {
     // Funcao para resgatar data de criacao da conta do usuario
     async function getCreatedUserDate() {
       const docNap = await firestore()
-        .collection('users')
+        .collection('alunos')
         .doc(user.userID)
         .get();
 

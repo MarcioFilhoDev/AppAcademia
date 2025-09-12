@@ -12,7 +12,7 @@ import { colors } from '../../constants/colors';
 import { TreinoContext } from '../../contexts/treinos';
 
 export default function FormularioTreino({ fechar }) {
-  const { salvarDados } = useContext(TreinoContext);
+  const { salvandoRequisicao } = useContext(TreinoContext);
 
   const [quantidadeTreinos, setQuantidadeTreinos] = useState(1);
 
@@ -56,7 +56,7 @@ export default function FormularioTreino({ fechar }) {
     }
 
     // Envia os dados para firestore e fecha o formulario
-    salvarDados(quantidadeTreinos, objetivo, dor, descricaoDor);
+    salvandoRequisicao(quantidadeTreinos, objetivo, dor, descricaoDor);
 
     // Reset nos valores
     setObjetivo(null);

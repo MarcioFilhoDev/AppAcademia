@@ -1,4 +1,8 @@
 export const colors = {
-  primary: '#fb923c', // Cor principal do aplicativo
-  input: '#0f172a',
+  primary: '#FF6B35',
+  secondary: '#1D3557',
+  accent: '#A8E6CF',
+  lightGray: '#F0F0F0',
+  gray: '#A0A0A0',
+  dark: '#222222',
 };

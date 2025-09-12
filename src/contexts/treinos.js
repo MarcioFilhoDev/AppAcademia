@@ -18,45 +18,46 @@ export function TreinoProvider({ children }) {
     if (!user?.userID) return;
 
     setLoading(true);
-    async function resgatarDados() {
-      try {
-        const snapshot = await firestore()
-          .collection('user_treinos')
-          .doc(user.userID)
-          .get();
 
-        if (snapshot.exists) {
-          const data = snapshot.data();
-
-          setDados(data.treinos || []);
-        } else {
+    const docSnap = firestore()
+      .collection('requisicoes_realizadas')
+      .doc(user.userID)
+      .onSnapshot(
+        snapshot => {
+          if (snapshot.exists) {
+            const data = snapshot.data();
+            setDados(data?.treinos);
+          } else {
+            setDados([]);
+          }
           setLoading(false);
-        }
-      } catch (error) {
-        Alert.alert('Erro', 'Erro ao recuperar os dados');
-        setDados([]);
-      } finally {
-        setLoading(false);
-      }
-    }
-    resgatarDados();
+        },
+        error => {
+          Alert.alert('Erro', error.message);
+          setLoading(false);
+        },
+      );
+
+    // Cancela o listener quando desmontar
+    return () => docSnap();
   }, [user?.userID]);
 
-  async function salvarDados(diasTreino, objetivo, dor, descDor) {
-    await firestore().collection('user_treinos_config').doc(user.userID).set({
-      userID: user.userID,
-      qtd_treinos: diasTreino,
-      objetivos: objetivo,
-      dor: dor,
+  // Salva a requisição feita pelo usuário
+  async function salvandoRequisicao(diasTreino, objetivo, dor, descDor) {
+    await firestore().collection('requisicoes_treino').doc(user.userID).set({
+      aluno: user.nome,
+      quantidade_treinos: diasTreino,
+      objetivo: objetivo,
+      possui_dor: dor,
       descricao_dor: descDor,
-      status: 'aguardando',
-      atualizado_em: new Date(),
+      status: 'Aguardando',
+      criado_em: new Date(),
     });
 
-    // Teste para ver como fica - atraves do aplicativo do professor que vai criar
-    // o documento
+    // Teste para ver como fica
+    // O aplicativo do professor vai criar esse documento
     await firestore()
-      .collection('user_treinos')
+      .collection('requisicoes_realizadas')
       .doc(user.userID)
       .set({
         quantidade_treinos: diasTreino,
@@ -113,7 +114,7 @@ export function TreinoProvider({ children }) {
   }
 
   return (
-    <TreinoContext.Provider value={{ dados, salvarDados }}>
+    <TreinoContext.Provider value={{ dados, salvandoRequisicao }}>
       {children}
     </TreinoContext.Provider>
   );

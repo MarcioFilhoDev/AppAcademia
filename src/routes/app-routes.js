@@ -11,8 +11,7 @@ import Profile from '../screens/app-screens/perfil';
 import Treinos from '../screens/app-screens/treinos';
 import Chat from '../screens/app-screens/chat';
 
-// Import dos icones
-import Feather from 'react-native-vector-icons/Feather';
+// Import de icones e cores
 import Lucide from '@react-native-vector-icons/lucide';
 import { colors } from '../constants/colors';
 
@@ -25,14 +24,16 @@ export default function AppRoutes() {
         tabBarShowLabel: false,
         tabBarStyle: {
           height: 55,
+          backgroundColor: colors.primary,
         },
         tabBarIconStyle: {
-          marginTop: 5,
+          marginTop: 8,
         },
-        tabBarActiveTintColor: colors.primary,
+        tabBarActiveTintColor: '#fff',
+        tabBarInactiveTintColor: colors.secondary,
       }}
     >
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="Receitas"
         component={Receitas}
         options={{
@@ -40,14 +41,14 @@ export default function AppRoutes() {
             <Lucide name="chef-hat" color={color} size={30} />
           ),
         }}
-      />
+      /> */}
 
       <Tabs.Screen
         name="Treinos"
         component={Treinos}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Lucide name="dumbbell" color={color} size={30} />
+            <Lucide name="clipboard-list" color={color} size={30} />
           ),
         }}
       />
@@ -57,7 +58,7 @@ export default function AppRoutes() {
         component={Home}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Feather name="home" color={color} size={30} />
+            <Lucide name="dumbbell" color={color} size={30} />
           ),
         }}
       />
@@ -77,7 +78,7 @@ export default function AppRoutes() {
         component={Profile}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Feather name="user" color={color} size={30} />
+            <Lucide name="user-round" color={color} size={30} />
           ),
         }}
       />

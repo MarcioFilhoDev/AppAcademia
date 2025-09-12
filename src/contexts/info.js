@@ -23,7 +23,7 @@ export function InfoProvider({ children }) {
     // Funcao responsavel por pegar os dados do documento do usuario
 
     const doc = firestore()
-      .collection('user_statics')
+      .collection('estatisticas_alunos')
       .doc(user.userID)
       .onSnapshot(dados => {
         if (dados.exists) {
@@ -41,7 +41,7 @@ export function InfoProvider({ children }) {
   // Salva e atualiza no banco de dados
   async function enviandoInformacoes(peso, altura) {
     setLoading(true);
-    await firestore().collection('user_statics').doc(user.userID).set({
+    await firestore().collection('estatisticas_alunos').doc(user.userID).set({
       last_update: new Date(),
       peso: peso,
       altura: altura,

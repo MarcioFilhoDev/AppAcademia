@@ -26,22 +26,22 @@ export default function Treinos() {
       // Verificando se existe um documento
       async function checkCollection() {
         const searchDoc = await firestore()
-          .collection('user_treinos_config')
-          .where('userID', '==', user.userID)
+          .collection('requisicoes_treino')
+          .where('aluno', '==', user.nome)
           .limit(1)
           .get();
-
+        //  ADICIONAR UM CONTADOR PARA O ALUNO PODER REALIZAR OUTRA SOLICITAÇÃO
         if (!searchDoc.empty) {
           setEstado('Você já realizou o seu pedido de treinos.');
-          // setBlock(true);
+          setBlock(true);
         } else {
-          // setBlock(false);
+          setBlock(false);
           setEstado('Você ainda não realizou o seu pedido de treinos');
         }
       }
 
       checkCollection();
-    }, [user.userID]),
+    }, [user.nome]),
   );
 
   return (

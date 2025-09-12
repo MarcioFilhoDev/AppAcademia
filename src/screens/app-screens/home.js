@@ -13,7 +13,7 @@ import CardTreinos from '../../components/home/card_treinos';
 export default function Home() {
   const { user } = useContext(AuthContext);
 
-  // Responsaveis por mostrar a mensagem de boas vidas
+  //  Variaveis responsaveis por mostrar a mensagem de boas vidas
   const [mensagem, setMensagem] = useState('');
   const [dia, setDia] = useState('');
   const [diaSemana, setDiaSemana] = useState('');
@@ -80,7 +80,7 @@ export default function Home() {
         setLoading(true);
 
         const unsubscribe = firestore()
-          .collection('users_week_progress')
+          .collection('progresso_aluno')
           .doc(user.userID)
           .onSnapshot(
             snapshot => {
@@ -116,7 +116,7 @@ export default function Home() {
   //   const alterandoValor = progresso[dia] === 1 ? 0 : 1;
 
   //   await firestore()
-  //     .collection('users_week_progress')
+  //     .collection('progresso_aluno')
   //     .doc(user.userID)
   //     .update({
   //       [dia]: alterandoValor,
@@ -135,11 +135,11 @@ export default function Home() {
       <View
         style={{
           backgroundColor: colors.primary,
-          paddingTop: StatusBar.currentHeight / 2,
+          paddingTop: StatusBar.currentHeight,
           paddingBottom: StatusBar.currentHeight / 2,
         }}
       >
-        <Text className="text-center text-xl">
+        <Text className="text-center text-2xl">
           {mensagem} {user.nome}
         </Text>
 
@@ -150,10 +150,10 @@ export default function Home() {
 
       {/* Barra de progresso */}
       {/* Procurando pelo firestore */}
-      <View className="mt-4 ">
-        <View className="flex-col items-center gap-2 bg-zinc-200 mx-14 p-4 rounded elevation">
-          <Text className="text-center text-lg mb-4">
-            Confira seu progresso da semana
+      <View className="mt-4">
+        <View className="flex-col items-center gap-2 p-2 bg-zinc-400/35 rounded">
+          <Text className="text-center text-lg mb-2">
+            Seu progresso da semana
           </Text>
 
           <View className="flex-row gap-3.5">

@@ -50,7 +50,7 @@ export function AuthProvider({ children }) {
 
         // Cadastrando informacoes adicionais do usuario no bd
         await firestore()
-          .collection('users')
+          .collection('alunos')
           .doc(uid)
           .set({
             nome: name,
@@ -94,7 +94,7 @@ export function AuthProvider({ children }) {
         let uid = value.user.uid;
 
         // Buscando no banco os dados do usuario
-        const data = await firestore().collection('users').doc(uid).get();
+        const data = await firestore().collection('alunos').doc(uid).get();
 
         let result_data = {
           userID: uid,
@@ -140,7 +140,7 @@ export function AuthProvider({ children }) {
 
   // Funcao responsavel por deletar conta do usuario
   async function deleteAccount() {
-    // Deletar colecoes: users, users_week_progress, users_statics
+    // Deletar colecoes: alunos, progresso_aluno, estatisticas_alunos
     setLoading(true);
     try {
       // Usuário autenticado atual
@@ -151,12 +151,15 @@ export function AuthProvider({ children }) {
         await usuario.delete();
 
         // Deleta dados do Firestore
-        await firestore().collection('users').doc(user.userID).delete();
+        await firestore().collection('alunos').doc(user.userID).delete();
         await firestore()
-          .collection('users_week_progress')
+          .collection('progresso_aluno')
           .doc(user.userID)
           .delete();
-        await firestore().collection('user_statics').doc(user.userID).delete();
+        await firestore()
+          .collection('estatisticas_alunos')
+          .doc(user.userID)
+          .delete();
 
         // Limpa sessão
         setUser(null);
