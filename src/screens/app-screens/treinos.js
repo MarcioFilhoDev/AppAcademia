@@ -1,4 +1,4 @@
-import { Alert, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import React, { useCallback, useContext, useState } from 'react';
 
 import { colors } from '../../constants/colors';

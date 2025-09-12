@@ -68,7 +68,7 @@ export function TreinoProvider({ children }) {
             exercicios: [
               {
                 nome: 'Supino reto',
-                url_gif:
+                url_video:
                   'https://media.musclewiki.com/media/uploads/videos/branded/male-barbell-bench-press-side_KciuhbB.mp4',
                 series: 4,
                 repeticoes: 12,

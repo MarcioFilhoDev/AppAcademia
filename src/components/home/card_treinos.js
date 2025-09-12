@@ -1,6 +1,7 @@
 import { FlatList, Image, Text, View } from 'react-native';
 import React, { useContext } from 'react';
 import { TreinoContext } from '../../contexts/treinos';
+import Video from 'react-native-video';
 
 export default function CardTreinos() {
   const { dados } = useContext(TreinoContext);
@@ -22,11 +23,14 @@ export default function CardTreinos() {
                   {ex.nome} – {ex.series}x{ex.repeticoes}
                 </Text>
 
-                {ex.url_gif && (
-                  <Image
-                    source={{ uri: ex.url_gif }}
-                    style={{ width: 120, height: 120 }}
+                {ex.url_video && (
+                  <Video
+                    source={{ uri: ex.url_video }}
+                    style={{ width: 200, height: 100 }}
                     resizeMode="contain"
+                    repeat
+                    muted
+                    controls={true}
                   />
                 )}
               </View>

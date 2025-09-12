@@ -93,7 +93,7 @@ export function AuthProvider({ children }) {
       .then(async value => {
         let uid = value.user.uid;
 
-        // Buscando no bd os dados do usuario
+        // Buscando no banco os dados do usuario
         const data = await firestore().collection('users').doc(uid).get();
 
         let result_data = {
