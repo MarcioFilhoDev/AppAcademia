@@ -1,7 +1,12 @@
-import { FlatList, Text, TouchableOpacity, View } from 'react-native';
-import React, { use, useContext, useState } from 'react';
+import {
+  FlatList,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, { useContext, useState } from 'react';
 import { TreinoContext } from '../../contexts/treinos';
-import Video from 'react-native-video';
 
 export default function CardTreinos() {
   const { dados } = useContext(TreinoContext);
@@ -17,35 +22,67 @@ export default function CardTreinos() {
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <View className="mb-4 p-3 rounded-lg border border-gray-300">
+            {/* Nome do treino */}
             <Text className="text-lg font-semibold">{item.nome}</Text>
 
-            {item.exercicios.map((exercicio, idx) => (
-              <View key={idx} className="">
-                <Text className="text-gray-600">
-                  {exercicio.nome} – {exercicio.series}x{exercicio.repeticoes}
-                </Text>
-
-                {exercicio.url_video && (
-                  <TouchableOpacity
-                    className="bg-neutral-500 h-10 w-10"
-                    onPress={() => setPlayOrPaused(!!playOrPaused)}
-                  >
-                    {/* <Video
-                      source={{ uri: exercicio.url_video }}
-                      style={{ width: 200, height: 100 }}
-                      resizeMode="contain"
-                      repeat
-                      muted
-                      paused={playOrPaused}
-                      controls={false}
-                    /> */}
-                  </TouchableOpacity>
-                )}
-              </View>
-            ))}
+            <View className="flex-row">
+              <ScrollView horizontal contentContainerStyle={{ gap: 4 }}>
+                <TouchableOpacity
+                  className="bg-neutral-500 h-24 w-24"
+                  onPress={() => setPlayOrPaused(!!playOrPaused)}
+                />
+                <TouchableOpacity
+                  className="bg-neutral-500 h-24 w-24"
+                  onPress={() => setPlayOrPaused(!!playOrPaused)}
+                />
+                <TouchableOpacity
+                  className="bg-neutral-500 h-24 w-24"
+                  onPress={() => setPlayOrPaused(!!playOrPaused)}
+                />
+                <TouchableOpacity
+                  className="bg-neutral-500 h-24 w-24"
+                  onPress={() => setPlayOrPaused(!!playOrPaused)}
+                />
+                <TouchableOpacity
+                  className="bg-neutral-500 h-24 w-24"
+                  onPress={() => setPlayOrPaused(!!playOrPaused)}
+                />
+                <TouchableOpacity
+                  className="bg-neutral-500 h-24 w-24"
+                  onPress={() => setPlayOrPaused(!!playOrPaused)}
+                />
+              </ScrollView>
+            </View>
           </View>
         )}
       />
     </View>
   );
 }
+
+{
+  /* {exercicio.url_video && (
+                  <Video
+                    source={{ uri: exercicio.url_video }}
+                    style={{ width: 200, height: 100 }}
+                    resizeMode="contain"
+                    repeat
+                    muted
+                    paused={playOrPaused}
+                    controls={false}
+                  />
+                )} */
+}
+
+// {item.exercicios.map((exercicio, key) => (
+//                 <View key={key}>
+//                   {/* <Text className="text-gray-600">
+//                   {exercicio.nome} – {exercicio.series}x{exercicio.repeticoes}
+//                 </Text> */}
+
+//                   <TouchableOpacity
+//                     className="bg-neutral-500 h-24 w-24"
+//                     onPress={() => setPlayOrPaused(!!playOrPaused)}
+//                   />
+//                 </View>
+//               ))}

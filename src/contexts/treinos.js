@@ -44,8 +44,11 @@ export function TreinoProvider({ children }) {
 
   // Salva a requisição feita pelo usuário
   async function salvandoRequisicao(diasTreino, objetivo, dor, descDor) {
+    //  Repasso o ID do usuario que fez a requisicao para poder resgatar
+    //  no aplicativo do professor
     await firestore().collection('requisicoes_treino').doc(user.userID).set({
       aluno: user.nome,
+      userID: user.userID,
       quantidade_treinos: diasTreino,
       objetivo: objetivo,
       possui_dor: dor,
@@ -53,56 +56,6 @@ export function TreinoProvider({ children }) {
       status: 'Aguardando',
       criado_em: new Date(),
     });
-
-    // Teste para ver como fica
-    // O aplicativo do professor vai criar esse documento
-    await firestore()
-      .collection('requisicoes_realizadas')
-      .doc(user.userID)
-      .set({
-        quantidade_treinos: diasTreino,
-        objetivo: objetivo,
-        sente_dores: [dor, descDor],
-        treinos: [
-          {
-            nome: 'Treino A',
-            exercicios: [
-              {
-                nome: 'Supino reto',
-                url_video:
-                  'https://media.musclewiki.com/media/uploads/videos/branded/male-barbell-bench-press-side_KciuhbB.mp4',
-                series: 4,
-                repeticoes: 12,
-                finalzado: false,
-              },
-              {
-                nome: 'Supino Inclinado',
-                series: 3,
-                repeticoes: 12,
-                finalzado: false,
-              },
-            ],
-          },
-          {
-            nome: 'Treino B',
-            exercicios: [
-              {
-                nome: 'Agachamento Livre',
-                series: 4,
-                repeticoes: 8,
-                finalzado: false,
-              },
-              {
-                nome: 'Leg Press',
-                series: 3,
-                repeticoes: 12,
-                finalzado: false,
-              },
-            ],
-          },
-        ],
-        atualizado_em: new Date(),
-      });
   }
 
   if (loading) {

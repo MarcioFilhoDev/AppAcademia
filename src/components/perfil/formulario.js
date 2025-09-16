@@ -7,7 +7,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import firestore from '@react-native-firebase/firestore';
 import { AuthContext } from '../../contexts/auth';
