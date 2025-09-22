@@ -9,12 +9,16 @@ export default function IMCCard() {
   if (!info?.peso || !info?.altura) {
     return (
       <View className="flex-1 justify-center">
-        <View className="bg-white rounded-2xl p-4 items-center elevation">
+        <View className="bg-white h-full rounded-2xl p-4 items-center elevation">
           <Text className="text-lg font-semibold text-gray-800">
             Dados insuficientes
           </Text>
           <Text className="text-gray-500 mt-2 text-center">
             Informe seu peso e sua altura para saber o seu IMC
+          </Text>
+
+          <Text className="text-neutral-500">
+            O IMC é calculado pela formula: peso / altura * altura
           </Text>
         </View>
       </View>

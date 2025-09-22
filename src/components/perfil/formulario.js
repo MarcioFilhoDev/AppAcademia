@@ -9,11 +9,8 @@ import {
 } from 'react-native';
 import React, { useContext, useState } from 'react';
 
-import firestore from '@react-native-firebase/firestore';
-import { AuthContext } from '../../contexts/auth';
 import { colors } from '../../constants/colors';
 import { InfoContext } from '../../contexts/info';
-import { useFocusEffect } from '@react-navigation/native';
 
 export default function Formulario({ fecharFormulario }) {
   const { enviandoInformacoes } = useContext(InfoContext);
@@ -62,7 +59,7 @@ export default function Formulario({ fecharFormulario }) {
           />
 
           {/* Inserindo a altura  */}
-          <Text className="text-lg mb-2 text-gray-800">Sua altura:</Text>
+          <Text className="text-lg mb-2 text-neutral-700">Sua altura:</Text>
           <TextInput
             placeholder="Exemplo: 1.75"
             placeholderTextColor={colors.input}
@@ -78,7 +75,7 @@ export default function Formulario({ fecharFormulario }) {
             <TouchableOpacity
               onPress={() => fecharFormulario()}
               activeOpacity={0.75}
-              className="flex-1 bg-gray-300 py-3 rounded-xl mr-2 items-center elevation-sm"
+              className="flex-1 bg-lightGray py-3 rounded-xl mr-2 items-center elevation-sm"
             >
               <Text className="text-gray-800 font-medium">Cancelar</Text>
             </TouchableOpacity>

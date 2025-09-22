@@ -76,7 +76,7 @@ export default function CardProfile({ abrirFormulario }) {
         <View className="items-center">
           <Text className="text-lg font-bold text-gray-800">
             {loading ? (
-              <ActivityIndicator size={20} color={'#1f2937'} />
+              <ActivityIndicator size={20} color={colors.secondary} />
             ) : (
               <View>
                 <Text> </Text>
@@ -106,7 +106,7 @@ export default function CardProfile({ abrirFormulario }) {
         {/* Alterar foto */}
         <TouchableOpacity
           activeOpacity={0.75}
-          className="bg-gray-200 px-6 py-3 rounded-xl elevation"
+          className="bg-lightGray px-6 py-3 rounded-xl elevation"
         >
           <Text className="text-gray-800 font-semibold">Alterar foto</Text>
         </TouchableOpacity>

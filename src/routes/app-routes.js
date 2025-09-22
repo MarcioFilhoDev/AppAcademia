@@ -63,7 +63,7 @@ export default function AppRoutes() {
         }}
       />
 
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="Chat"
         component={Chat}
         options={{
@@ -71,7 +71,7 @@ export default function AppRoutes() {
             return <Lucide name="messages-square" color={color} size={30} />;
           },
         }}
-      />
+      /> */}
 
       <Tabs.Screen
         name="Perfil"

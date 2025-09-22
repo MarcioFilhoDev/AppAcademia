@@ -24,13 +24,14 @@ export default function SignUp() {
 
   const [showPass, setShowPass] = useState(false);
   const [name, setName] = useState('');
+  const [sobrenome, setSobrenome] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
   async function handleSignUp() {
-    // Remover todos os espaços vazios
-    let nomeReal = name.trim();
+    // .trim() = remove todos os espaços vazios
+    let nomeReal = name.trim() + sobrenome.trim();
     let emailReal = email.trim();
     let passwordReal = password.trim();
     let confirmPasswordReal = confirmPassword.trim();
@@ -56,7 +57,7 @@ export default function SignUp() {
       return;
     }
 
-    await signUp(email, password, name);
+    await signUp(email, password, name, sobrenome);
 
     // Retornando os campos para nulos
     setName('');
@@ -79,17 +80,33 @@ export default function SignUp() {
           </Text>
 
           <View className="gap-3">
-            <TextInput
-              placeholder="Digite seu nome"
-              className="bg-neutral-100 pl-4 py-4 rounded text-lg elevation-sm"
-              value={name}
-              onChangeText={text => setName(text)}
-              maxLength={20}
-              placeholderTextColor={'#888'}
-              autoCapitalize="none"
-              disableKeyboardShortcuts={true}
-              style={{ color: colors.input }}
-            />
+            <View className="flex-row gap-6">
+              <TextInput
+                placeholder="Nome"
+                className="flex-1 bg-neutral-100 pl-4 py-4 rounded text-lg elevation-sm"
+                value={name}
+                onChangeText={text => setName(text)}
+                maxLength={20}
+                placeholderTextColor={'#888'}
+                autoCapitalize="none"
+                autoCorrect={false}
+                autoComplete="off"
+                disableKeyboardShortcuts={true}
+                style={{ color: colors.dark }}
+              />
+
+              <TextInput
+                placeholder="Sobrenome"
+                className="flex-1 bg-neutral-100 pl-4 py-4 rounded text-lg elevation-sm"
+                value={sobrenome}
+                onChangeText={text => setSobrenome(text)}
+                maxLength={20}
+                placeholderTextColor={'#888'}
+                autoCapitalize="none"
+                disableKeyboardShortcuts={true}
+                style={{ color: colors.dark }}
+              />
+            </View>
 
             <TextInput
               placeholder="Digite seu e-mail"
@@ -98,7 +115,7 @@ export default function SignUp() {
               onChangeText={text => setEmail(text)}
               maxLength={60}
               placeholderTextColor={'#888'}
-              style={{ color: colors.input }}
+              style={{ color: colors.dark }}
               autoCapitalize="none"
               disableKeyboardShortcuts={true}
             />
@@ -111,7 +128,7 @@ export default function SignUp() {
               onChangeText={text => setPassword(text)}
               maxLength={20}
               placeholderTextColor={'#888'}
-              style={{ color: colors.input }}
+              style={{ color: colors.dark }}
               autoCapitalize="none"
               disableKeyboardShortcuts={true}
             />
@@ -124,7 +141,7 @@ export default function SignUp() {
               onChangeText={text => setConfirmPassword(text)}
               maxLength={20}
               placeholderTextColor={'#888'}
-              style={{ color: colors.input }}
+              style={{ color: colors.dark }}
               autoCapitalize="none"
               disableKeyboardShortcuts={true}
             />

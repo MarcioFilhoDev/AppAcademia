@@ -40,7 +40,7 @@ export function AuthProvider({ children }) {
   }
 
   // Funcao que registra/cadastra usuarios
-  async function signUp(email, password, name) {
+  async function signUp(email, password, nome, sobrenome) {
     setLoading(true);
     await auth()
       .createUserWithEmailAndPassword(email, password)
@@ -53,7 +53,7 @@ export function AuthProvider({ children }) {
           .collection('alunos')
           .doc(uid)
           .set({
-            nome: name,
+            nome: nome + ' ' + sobrenome,
             email: email,
             created: new Date(),
           })
@@ -64,7 +64,7 @@ export function AuthProvider({ children }) {
             // Criando colecao para cada usuario cadastrado
             let data = {
               userID: uid,
-              nome: name,
+              nome: nome + ' ' + sobrenome,
               email: value.user.email,
             };
 

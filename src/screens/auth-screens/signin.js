@@ -50,10 +50,10 @@ export default function SignIn() {
             <TextInput
               placeholder="E-mail"
               placeholderTextColor={'#888'}
-              className="bg-neutral-100 pl-4 py-4 rounded text-lg elevation-sm"
+              className="bg-neutral-100 pl-4 py-4 rounded text-lg text-blue-500 elevation-sm"
               value={email}
               onChangeText={text => setEmail(text)}
-              style={{ color: colors.input }}
+              style={{ color: colors.dark }}
             />
 
             {/* Campo da senha */}
@@ -64,7 +64,7 @@ export default function SignIn() {
               secureTextEntry={!showPass}
               value={password}
               onChangeText={text => setPassword(text)}
-              style={{ color: colors.input }}
+              style={{ color: colors.dark }}
             />
 
             {/*  */}
