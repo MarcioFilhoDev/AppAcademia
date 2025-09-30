@@ -14,6 +14,7 @@ export function TreinoProvider({ children }) {
 
   const [loading, setLoading] = useState(false);
 
+  // Resgata os dados de treinos
   useEffect(() => {
     if (!user?.userID) return;
 
@@ -43,13 +44,20 @@ export function TreinoProvider({ children }) {
   }, [user?.userID]);
 
   // Salva a requisição feita pelo usuário
-  async function salvandoRequisicao(diasTreino, objetivo, dor, descDor) {
+  async function salvandoRequisicao(
+    diasTreino,
+    objetivo,
+    dor,
+    descDor,
+    videoUrl,
+  ) {
     //  Repasso o ID do usuario que fez a requisicao para poder resgatar
     //  no aplicativo do professor
     await firestore().collection('requisicoes_treino').doc(user.userID).set({
       aluno: user.nome,
       userID: user.userID,
       quantidade_treinos: diasTreino,
+      videoUrl: videoUrl,
       objetivo: objetivo,
       possui_dor: dor,
       descricao_dor: descDor,
